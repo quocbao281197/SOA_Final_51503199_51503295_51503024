@@ -40,11 +40,11 @@ public class TeacherManagementServices {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String isAdmin(@FormParam("username") String username, @FormParam("password") String password)
 	{
-		System.out.println("input username :" + username);
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
+			System.out.println("Begin Login Function");
 			Class.forName("com.mysql.jdbc.Driver");
 			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase";
 			String connectionUser = "root";
@@ -54,27 +54,48 @@ public class TeacherManagementServices {
 
 			String value = "0";
 			//rs = stmt.executeQuery("SELECT * FROM account");
-			if(checkUsername(username,password)) {
-				rs = stmt.executeQuery("SELECT * FROM account WHERE USERNAME = '" + username + "'");
-				while (rs.next())
-				{
-					String role = rs.getString("ROLE");
-					if(role.equals("1")) {
-						value = "1";
-					}
-					else {
-						value = "0";
-					}
+			//String query = "SELECT * FROM account WHERE USERNAME = '" + username + "' AND ACTIVE = '1'";
+			
+			String query = "SELECT * FROM account WHERE USERNAME = '" + username + "' AND PASSWORD = '" + password + "' AND ACTIVE = '1'";
+			rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				String role = rs.getString("ROLE");
+				System.out.println("Role is: " + role);
+				if(role.equals("1")) {
+					System.out.println("Login Success!");
+					return "1";
 				}
+				else if(role.equals("0")) {
+					System.out.println("Login Success!");
+					return "0";
+				}
+				System.out.println("***********************************");
 			}
-			else {
-				value = "3";
-				//return "0";
-			}
-			System.out.println("Role is: " + value);
 			logging(username);
+			System.out.println("Login Failed!!!!");
+			return "99";
+//			if(checkUsername(username,password)) {
+//				System.out.println("Step 2");
+//				rs = stmt.executeQuery("SELECT * FROM account WHERE USERNAME = '" + username + "' AND ACTIVE = '1'");
+//				while (rs.next())
+//				{
+//					String role = rs.getString("ROLE");
+//					if(role.equals("1")) {
+//						value = "1";
+//					}
+//					else {
+//						value = "0";
+//					}
+//				}
+//			}
+//			else {
+//				value = "3";
+//				//return "0";
+//			}
+//			System.out.println("Role is: " + value);
+//			logging(username);
 			//logout(username);
-			return value;
+			//return value;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -96,15 +117,20 @@ public class TeacherManagementServices {
 			String connectionPassword = "";
 			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("SELECT * FROM account WHERE ACTIVE = '1'");
+			String query = "SELECT * FROM account WHERE USERNAME = '" + username + "' AND PASSWORD = '" + password + "' AND ACTIVE = '1'";
+			//rs = stmt.executeQuery("SELECT * FROM account WHERE ACTIVE = '1'");
+			rs = stmt.executeQuery(query);
 			while (rs.next())
 			{
-				String u = rs.getString("USERNAME");
-				String p = rs.getString("PASSWORD");
-				if(username.equals(u) && password.equals(p)) {
-					return true;
-				}
+//				String u = rs.getString("USERNAME");
+//				String p = rs.getString("PASSWORD");
+//				if(username.equals(u) && password.equals(p)) {
+//					return true;
+//				}
+				System.out.println("Found!");
+				return true;
 			}
+			return false;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -125,6 +151,8 @@ public class TeacherManagementServices {
 		Statement stmt = null;
 		ResultSet rs1 = null;
 		try {
+			System.out.println("***********************************");
+			System.out.println("Begin Logging Function");
 			Class.forName("com.mysql.jdbc.Driver");
 			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase";
 			String connectionUser = "root";
@@ -135,9 +163,8 @@ public class TeacherManagementServices {
 			String date = getCurrentDate1();
 			String time = getCurrentTime1();
 			stmt.executeUpdate("INSERT INTO `logging`(`ACCOUNTLOGGER`, `DATE`, `TIMESTART`, `TIMEOUT`) VALUES ('" + username + "','"+ date +"','" + time + "','')");
-			System.out.println("date: " + date);
-			System.out.println("time" + time);
-			System.out.println("Success logging");
+			System.out.println("Success logging!");
+			System.out.println("***********************************");
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -149,20 +176,14 @@ public class TeacherManagementServices {
 	}
 	
 	private String getCurrentDate() {
-		System.out.println("get Date begin");
 		LocalDate localDate = LocalDate.now();
         String result = DateTimeFormatter.ofPattern("yyyy-mm-dd").format(localDate);
-        System.out.println("get Date end");
-        System.out.println("Date get: " + result);
         return result;
 	}
 	
 	private String getCurrentTime() {
-		System.out.println("get Time begin");
 		LocalTime time = java.time.LocalTime.now();
 		String result = time.toString();
-		System.out.println("result");
-		System.out.println("get Time begin");
 		return result;
 	}
 	
@@ -184,11 +205,12 @@ public class TeacherManagementServices {
 	//public void logout(@FormParam("username") String username, @FormParam("date") String date, @FormParam("timestart") String timestart )
 	public boolean logout(@FormParam("username") String username)
 	{
-		System.out.println("Logout name: " + username);
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
+			System.out.println("***********************************");
+			System.out.println("Begin Logout Function");
 			Class.forName("com.mysql.jdbc.Driver");
 			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase";
 			String connectionUser = "root";
@@ -200,8 +222,8 @@ public class TeacherManagementServices {
 		    /*Sua cau truy van*/
 			//stmt.executeUpdate("UPDATE `teacherdatabase`.`logging` SET `TIMEOUT` = '" + time + "' WHERE `logging`.`ACCOUNTLOGGER` = '" + username + "' AND `logging`.`DATE` = '" + date +"' AND `logging`.`TIMESTART` = '" + timestart +"';");
 			stmt.executeUpdate("UPDATE `logging`  SET `TIMEOUT`='" + time + "' WHERE ACCOUNTLOGGER = '" + username +"' ORDER BY `DATE` DESC, `TIMESTART` DESC LIMIT 1"); // Duy : co the where timeout null
-			System.out.println("time logout: " + time);
-			System.out.println("Success Logout!");
+			System.out.println("Success Logout user" + username +" !");
+			System.out.println("***********************************");
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -214,16 +236,17 @@ public class TeacherManagementServices {
 	}
 	
 	@POST
-	@Path("TeacherManagement/ViewAnnoucement/") 
+	@Path("/ViewAnnouncement/") 
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)     
 	@Produces(MediaType.APPLICATION_JSON)
 	public Announcement ViewAnnoucement(@FormParam("TITLE") String TITLE)   //Duy : return ve title+content , co nen tao doi tuong thong bao ?
 	{
-		System.out.println("Receive: " + TITLE);
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
+			System.out.println("***********************************");
+			System.out.println("Begin Teacher View Announcement Function");
 			Class.forName("com.mysql.jdbc.Driver");
 			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
 			String connectionUser = "root";
@@ -246,12 +269,10 @@ public class TeacherManagementServices {
 				
 				 /* DOB */
 				 datepost = rs.getDate("DATEPOST");
-				 System.out.println("DatePost: " + datepost.toString());
 				 String datepostStr = datepost.toString();
 				 DateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd");
 				 utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 				 datepost = utcFormat.parse(datepostStr);
-				 System.out.println("After DatePost: " + datepost.toString());
 				 /*      */
 				 
 				ann.setId(id);
@@ -260,6 +281,8 @@ public class TeacherManagementServices {
 				ann.setTitle(TITLE);
 				ann.setDatepost(datepost);
 			}
+			System.out.println("Success Teacher View Announcement Function");
+			System.out.println("***********************************");
 			return ann;     //Duy: return Object ?
 				
 		} catch (Exception e) {
@@ -279,7 +302,7 @@ public class TeacherManagementServices {
 	
 	/*UpdatePersonalInformation*/
 	@POST
-	@Path("TeacherManagement/UpdatePersonalInfomation/")  
+	@Path("/UpdatePersonalInfomation/")  
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)   
 	@Produces(MediaType.APPLICATION_JSON)
 	public boolean UpdatePersonalInfomation(@FormParam("ID") String ID
@@ -290,21 +313,26 @@ public class TeacherManagementServices {
 			, @FormParam("COUNTRY") String COUNTRY
 			, @FormParam("EMAIL") String EMAIL
 			, @FormParam("ADDRESS") String ADDRESS
-			, @FormParam("RELIGION") String RELIGION
-			, @FormParam("PASSWORD") String PASSWORD)   
+			, @FormParam("RELIGION") String RELIGION)
+			//, @FormParam("PASSWORD") String PASSWORD)   
 	{
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
+			System.out.println("***********************************");
 			Class.forName("com.mysql.jdbc.Driver");
 			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
 			String connectionUser = "root";
 			String connectionPassword = "";
 			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
 			stmt = conn.createStatement();
-			rs = stmt.executeQuery("UPDATE `teacher` SET `NAME`='"+TEACHERNAME+"',`DOB`='"+DOB+"', `GENDER`='"+GENDER+"',`PHONENUMBER`='"+PHONENUMBER+"',`COUNTRY`='"+COUNTRY+"',`EMAIL`='"+EMAIL+"',`ADDRESS`='"+ADDRESS+"',`RELIGION`='"+RELIGION+"',WHERE ID = '"+ID+"'  ");
-			rs = stmt.executeQuery("UPDATE `account` SET PASSWORD`='"+PASSWORD+"' WHERE USERNAME = '"+ID+"'");
+			String updateStatement = "UPDATE `teacher` SET `NAME`='"+TEACHERNAME+"',`DOB`='"+DOB+"', `GENDER`='"+GENDER+"',`PHONENUMBER`='"+PHONENUMBER+"',`COUNTRY`='"+COUNTRY+"',`EMAIL`='"+EMAIL+"',`ADDRESS`='"+ADDRESS+"',`RELIGION`='"+RELIGION+"' WHERE ID = '"+ID+"'  ";
+			//System.out.println("Update statement: " + updateStatement);
+			stmt.executeUpdate(updateStatement);
+			//rs = stmt.executeQuery("UPDATE `account` SET PASSWORD`='"+PASSWORD+"' WHERE USERNAME = '"+ID+"'");
+			System.out.println("Update Success");
+			System.out.println("***********************************");
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -329,6 +357,7 @@ public class TeacherManagementServices {
 		ResultSet rs = null;
 		ArrayList<Salary> lstSalary = new ArrayList<Salary>();
 		try {
+			System.out.println("***********************************");
 			Class.forName("com.mysql.jdbc.Driver");
 			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
 			String connectionUser = "root";
@@ -351,7 +380,7 @@ public class TeacherManagementServices {
 			
 				lstSalary.add(salary);
 			}
-		
+			System.out.println("***********************************");
 			return lstSalary;
 				
 		} catch (Exception e) {
@@ -430,11 +459,12 @@ public class TeacherManagementServices {
 			@FormParam("EMAIL") String EMAIL, @FormParam("ADDRESS") String ADDRESS, @FormParam("RELIGION") String RELIGION,
 			@FormParam("SUBJECT_NAME") String SUBJECT_NAME)
 	{
-		System.out.println("Begin   ADD TEACHER");
+		System.out.println("Begin Add Teacher Function");
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
+			System.out.println("***********************************");
 			Class.forName("com.mysql.jdbc.Driver");
 			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
 			String connectionUser = "root";
@@ -470,6 +500,7 @@ public class TeacherManagementServices {
 			
 			String scheduleID = "SC" + ID.substring(2);
 			stmt.executeUpdate("INSERT INTO `schedule`(`ID`, `DAY`, `SHIFT`, `LOCATION`, `SEMESTER`, `YEAR`, `IDTEACHER`) VALUES ('"+ scheduleID +"',0,0,'0','0','0000','"+ ID + "')");
+			System.out.println("***********************************");
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -491,6 +522,7 @@ public class TeacherManagementServices {
 		Connection conn = null;
 		Statement stmt = null;
 		try {
+			System.out.println("***********************************");
 			System.out.println("BEGIN UPDATE INFORMATION!");
 			Class.forName("com.mysql.jdbc.Driver");
 			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
@@ -499,22 +531,13 @@ public class TeacherManagementServices {
 			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
 			stmt = conn.createStatement();
 			// Update teacher _ Admin ( khong update ID)
-			System.out.println("ID: " + ID);
-			System.out.println("TEACHERNAME: " + TEACHERNAME);
-			System.out.println("DOB: " + DOB);
-			System.out.println("IDENTIFYCARDNUMBER: " + IDENTIFYCARDNUMBER);
-			System.out.println("GENDER: " + GENDER);
-			System.out.println("PHONENUMBER: " + PHONENUMBER);
-			System.out.println("COUNTRY: " + COUNTRY);
-			System.out.println("EMAIL: " + EMAIL);
-			System.out.println("ADDRESS: " + ADDRESS);
-			System.out.println("RELIGION: " + RELIGION);
-			System.out.println("STATUS: " + STATUS);
+
 			String sqlStatement = "UPDATE `admin` SET `NAME`='"+TEACHERNAME+"',`DOB`='"+DOB+"',`IDENTIFYCARDNUMBER`='"+IDENTIFYCARDNUMBER+"',`GENDER`='"+GENDER+"',`PHONENUMBER`='"+PHONENUMBER+"',`COUNTRY`='"+COUNTRY+"',`EMAIL`='"+EMAIL+"',`ADDRESS`='"+ADDRESS+"',`RELIGION`='"+RELIGION+"',`STATUS`='"+STATUS+"' WHERE ID = '"+ID+"'";
 			System.out.println("SQLSTATEMENT update: " + sqlStatement);
 			stmt.executeUpdate("UPDATE `admin` SET `NAME`='"+TEACHERNAME+"',`DOB`='"+DOB+"',`IDENTIFYCARDNUMBER`='"+IDENTIFYCARDNUMBER+"',`GENDER`='"+GENDER+"',`PHONENUMBER`='"+PHONENUMBER+"',`COUNTRY`='"+COUNTRY+"',`EMAIL`='"+EMAIL+"',`ADDRESS`='"+ADDRESS+"',`RELIGION`='"+RELIGION+"',`STATUS`="+STATUS+" WHERE ID = '"+ID+"'");
-			System.out.println("Update Admin Succeed");
-		return true;
+			System.out.println("Update Admin Succeed!");
+			System.out.println("***********************************");
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -532,11 +555,12 @@ public class TeacherManagementServices {
 	
 	public boolean DeleteTeacher(@FormParam("ID") String ID)
 	{
-		System.out.println("Input ID : " + ID);
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
+			System.out.println("***********************************");
+			System.out.println("Begin Delete Function");
 			Class.forName("com.mysql.jdbc.Driver");
 			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
 			String connectionUser = "root";
@@ -545,7 +569,12 @@ public class TeacherManagementServices {
 			stmt = conn.createStatement();
 			// delete teacher
 			stmt.executeUpdate("UPDATE `teacher` SET `STATUS`= 0 WHERE ID ='"+ID+"'");
-		return true;
+			String deleteAccount = "UPDATE `account` SET `ACTIVE`= 0 WHERE `USERNAME`= '" + ID + "'";
+			
+			stmt.executeUpdate(deleteAccount);
+			System.out.println("Delete Success!"); 
+			System.out.println("***********************************");
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -558,19 +587,18 @@ public class TeacherManagementServices {
 	
 	/*Teacher - update*/
 	@POST
-	@Path("TeacherManagement/UpDateTeacher/")
+	@Path("Admin/UpdateTeacherInfo/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED + "; charset=utf-8")
-	//@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	@Produces(MediaType.APPLICATION_JSON + "; charset=utf-8")
 	
 	public boolean UpdateTeacher_Admin(@FormParam("ID") String ID,@FormParam("TEACHERNAME") String TEACHERNAME, @FormParam("DOB") String DOB, @FormParam("IDENTIFYCARDNUMBER") String IDENTIFYCARDNUMBER, @FormParam("GENDER") String GENDER, @FormParam("PHONENUMBER") String PHONENUMBER, @FormParam("COUNTRY") String COUNTRY, @FormParam("EMAIL") String EMAIL, @FormParam("ADDRESS") String ADDRESS, @FormParam("RELIGION") String RELIGION,@FormParam("STATUS") String STATUS, @FormParam("SUBJECT_NAME") String SUBJECT_NAME)
 	{
 
-		/*Vào iso-8859-1, ra utf-8 => ?*/
 		Connection conn = null;
 		Statement stmt = null;
 		try {
-			System.out.println("BEGIN UPDATE INFORMATION!");
+			System.out.println("***********************************");
+			System.out.println("BEGIN UPDATE INFORMATION BY ADMIN!");
 			Class.forName("com.mysql.jdbc.Driver");
 			//String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase";
 			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
@@ -580,24 +608,14 @@ public class TeacherManagementServices {
 		
 			stmt = conn.createStatement();
 			// Update teacher _ Admin ( khong update ID)
-			System.out.println("ID: " + ID);
-			System.out.println("TEACHERNAME: " + TEACHERNAME);
-			System.out.println("DOB: " + DOB);
-			System.out.println("IDENTIFYCARDNUMBER: " + IDENTIFYCARDNUMBER);
-			System.out.println("GENDER: " + GENDER);
-			System.out.println("PHONENUMBER: " + PHONENUMBER);
-			System.out.println("COUNTRY: " + COUNTRY);
-			System.out.println("EMAIL: " + EMAIL);
-			System.out.println("ADDRESS: " + ADDRESS);
-			System.out.println("RELIGION: " + RELIGION);
-			System.out.println("STATUS: " + STATUS);
-			System.out.println("SUBJECT_NAME: " + SUBJECT_NAME);
-			String sqlStatement = "UPDATE `teacher` SET `NAME`='"+TEACHERNAME+"',`DOB`='"+DOB+"',`IDENTIFYCARDNUMBER`='"+IDENTIFYCARDNUMBER+"',`GENDER`='"+GENDER+"',`PHONENUMBER`='"+PHONENUMBER+"',`COUNTRY`='"+COUNTRY+"',`EMAIL`='"+EMAIL+"',`ADDRESS`='"+ADDRESS+"',`RELIGION`='"+RELIGION+"',`STATUS`='"+STATUS+"',`SUBJECT_NAME`='"+SUBJECT_NAME+"' WHERE ID = '"+ID+"'";
-			System.out.println("SQLSTATEMENT update: " + sqlStatement);
 			stmt.executeUpdate("UPDATE `teacher` SET `NAME`='"+TEACHERNAME+"',`DOB`='"+DOB+"',`IDENTIFYCARDNUMBER`='"+IDENTIFYCARDNUMBER+"',`GENDER`='"+GENDER+"',`PHONENUMBER`='"+PHONENUMBER+"',`COUNTRY`='"+COUNTRY+"',`EMAIL`='"+EMAIL+"',`ADDRESS`='"+ADDRESS+"',`RELIGION`='"+RELIGION+"',`STATUS`="+STATUS+",`SUBJECT_NAME`='"+SUBJECT_NAME+"' WHERE ID = '"+ID+"'");
-			System.out.println("Update Teacher By Admin Succeed");
 			
-		return true;
+			String sqlUpdateAccount = "UPDATE `account` SET `ACTIVE`= " + STATUS + " WHERE `USERNAME`= '" + ID + "'";
+			System.out.println("Update account statement: " + sqlUpdateAccount);
+			stmt.executeUpdate(sqlUpdateAccount);
+			System.out.println("Update Teacher By Admin Succeed");
+			System.out.println("***********************************");
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -609,18 +627,17 @@ public class TeacherManagementServices {
 	
 	/*Teacher - ViewInformation*/
 	@POST
-	@Path("TeacherManagement/ViewTeacherInfomation/")  // GetInfoTeacher
+	@Path("/ViewTeacherInfomation/")  // GetInfoTeacher
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)   
 	@Produces(MediaType.APPLICATION_JSON)
 	@JsonbDateFormat
 	public Teacher ViewTeacherInfomation(@FormParam("username") String ID)   
 	{
-		System.out.println("input id: " + ID);
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
-			System.out.println("Getting Information of Teacher: " + ID );
+			System.out.println("***********************************");
 			Class.forName("com.mysql.jdbc.Driver");
 			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
 			String connectionUser = "root";
@@ -664,7 +681,7 @@ public class TeacherManagementServices {
 				 teacher.setSubjectname(subjectname);
 				
 			}
-			System.out.println("Getting Success!");
+			System.out.println("***********************************");
 			return teacher;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -683,12 +700,12 @@ public class TeacherManagementServices {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Admin ViewAdminInfomation(@FormParam("username") String ID)   
 	{
-		System.out.println("input id: " + ID);
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
-			System.out.println("Getting Information");
+			System.out.println("***********************************");
+			System.out.println("Begin View Admin Information");
 			Class.forName("com.mysql.jdbc.Driver");
 			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
 			String connectionUser = "root";
@@ -727,12 +744,10 @@ public class TeacherManagementServices {
 				 admin.setEmail(email);
 				 admin.setAddress(address);
 				 admin.setReligion(religion);
-				 admin.setStatus(status);
-				 System.out.println("username: " + id);
-				 System.out.println("DOB: " + DOB);
-				
+				 admin.setStatus(status);				
 			}
-			System.out.println("Getting Success!");
+			System.out.println("View Admin Information Success!");
+			System.out.println("***********************************");
 			return admin;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -756,6 +771,7 @@ public class TeacherManagementServices {
 		ResultSet rs = null;
 		ArrayList<Teacher> ArrayTeacher = new ArrayList<Teacher>();
 		try {
+			System.out.println("***********************************");
 			Class.forName("com.mysql.jdbc.Driver");
 			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
 			String connectionUser = "root";
@@ -786,6 +802,7 @@ public class TeacherManagementServices {
 				 Boolean status  =           rs.getBoolean("STATUS");
 				 String subjectname =	     rs.getString("SUBJECT_NAME");
 				 
+				 
 				 Teacher teacher = new Teacher();
 				 teacher.setId(id);
 				 teacher.setName(name);
@@ -799,10 +816,11 @@ public class TeacherManagementServices {
 				 teacher.setReligion(religion);
 				 teacher.setStatus(status);
 				 teacher.setSubjectname(subjectname);
-				 
+
 				 ArrayTeacher.add(teacher);
 				 System.out.println("Status: "  + status);
 			}
+			System.out.println("***********************************");
 			return ArrayTeacher;
 				
 		} catch (Exception e) {
@@ -827,12 +845,13 @@ public class TeacherManagementServices {
 	public boolean UploadAnnoucement(@FormParam("TITLE") String TITLE,
 			@FormParam("CONTENT") String CONTENT, @FormParam("IDADMIN") String IDADMIN)
 	{
-		System.out.println("Go");
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		String ID = Auto_Increment_ID_Announcement();
 		try {
+			System.out.println("***********************************");
+			System.out.println("Begin Upload Announcement Function");
 			Class.forName("com.mysql.jdbc.Driver");
 			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
 			String connectionUser = "root";
@@ -841,9 +860,10 @@ public class TeacherManagementServices {
 			stmt = conn.createStatement();
 			
 			String date = getCurrentDate1();
-			System.out.println("By " +  IDADMIN);
 			stmt.executeUpdate("INSERT INTO `announcement` (`ID`, `TITLE`, `CONTENT`, `IDADMIN`, `DATEPOST`) VALUES\r\n" + 
 					"('"+ID+"','"+TITLE+"', '"+CONTENT+"', '"+IDADMIN+"', '"+date+"')"); 
+			System.out.println("Success Upload Announcement Function!");
+			System.out.println("***********************************");
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -866,12 +886,12 @@ public class TeacherManagementServices {
 	@Produces(MediaType.APPLICATION_JSON)
 	public ArrayList<Announcement> GetListAnnouncement_Title() 
 	{
-		System.out.println("Reach Annoucement");
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		ArrayList<Announcement> ArrayAnnouncement = new ArrayList<Announcement>();
 		try {
+			System.out.println("***********************************");
 			Class.forName("com.mysql.jdbc.Driver");
 			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
 			String connectionUser = "root";
@@ -886,12 +906,10 @@ public class TeacherManagementServices {
 				
 				 /* DOB */
 				 Date datepost = rs.getDate("DATEPOST");
-				 System.out.println("DatePost: " + datepost.toString());
 				 String datepostStr = datepost.toString();
 				 DateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd");
 				 utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 				 datepost = utcFormat.parse(datepostStr);
-				 System.out.println("After DatePost: " + datepost.toString());
 				 /*      */
 				 
 				Announcement announcement = new Announcement();
@@ -901,6 +919,7 @@ public class TeacherManagementServices {
 				
 				ArrayAnnouncement.add(announcement);
 			}
+			System.out.println("***********************************");
 			return ArrayAnnouncement;
 				
 		} catch (Exception e) {
@@ -944,7 +963,6 @@ public class TeacherManagementServices {
 			else {
 				result = "GV" + count;
 			}
-			System.out.println("ID: " + result);
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -986,7 +1004,6 @@ public class TeacherManagementServices {
 			else {
 				result = "TB" + count;
 			}
-			System.out.println("ID_TB: " + result);
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1085,12 +1102,13 @@ public class TeacherManagementServices {
 	@Produces(MediaType.APPLICATION_JSON)
 	public ArrayList<Schedule> getListSchedule(@FormParam("teacherID") String teacherID,@FormParam("day") int day,@FormParam("semester") String semester, @FormParam("year") String year) 
 	{
-		System.out.println("Reach Schedule");
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		ArrayList<Schedule> ArraySchedule = new ArrayList<Schedule>();
 		try {
+			System.out.println("***********************************");
+			System.out.println("Begin View Teaching Schedule");
 			Class.forName("com.mysql.jdbc.Driver");
 			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
 			String connectionUser = "root";
@@ -1103,10 +1121,8 @@ public class TeacherManagementServices {
 			rs = stmt.executeQuery(query);
 			while (rs.next())
 			{
-				System.out.println("have result");
 				Schedule schedule = new Schedule();
 				String id = rs.getString("ID");
-				System.out.println("ID: " + id);
 				int shift = rs.getInt("SHIFT");
 				String[] time;
 				time = convertShiftToTime(shift);
@@ -1122,13 +1138,9 @@ public class TeacherManagementServices {
 				schedule.setTimeStart(timeStart);
 				schedule.setYear(year);
 				ArraySchedule.add(schedule);
-				
-				System.out.println("Schedule for teacher ID:" + schedule.getIdteacher());
-				System.out.println("Location: " + schedule.getLocation());
-				System.out.println("Shift: " +  shift);
-				System.out.println("Time start: " + schedule.getTimeStart());
-				System.out.println("Time end: " + schedule.getTimeEnd());
 			}
+			System.out.println("Success View Teaching Schedule Function!");
+			System.out.println("***********************************");
 			return ArraySchedule;
 				
 		} catch (Exception e) {
@@ -1197,8 +1209,10 @@ public class TeacherManagementServices {
 			@FormParam("Location") String Location,
 			@FormParam("Semester") String Semester,
 			@FormParam("Year") String Year
-	) {
-		System.out.println("Begin Add Schedule");
+	)
+	{
+		System.out.println("***********************************");
+		System.out.println("Begin Add Schedule Function");
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -1210,16 +1224,17 @@ public class TeacherManagementServices {
 			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
 			
 			String scheduleID = "SC" + TeacherID.substring(2);
-			System.out.println("Schedule ID: " + scheduleID);
-			System.out.println("TeacherID: " + TeacherID);
+
 			stmt = conn.createStatement();
-			String queryDelete = "DELETE FROM `schedule` WHERE 'SHIFT' = 0 AND 'DAY' = 0 AND ID='"+scheduleID+"'";
+			//String queryDelete = "DELETE FROM `schedule` WHERE 'SHIFT' = 0 AND 'DAY' = 0 AND ID='"+scheduleID+"'";
 			String queryInsert = "INSERT INTO `schedule`(`ID`, `DAY`, `SHIFT`, `LOCATION`, `SEMESTER`, `YEAR`, `IDTEACHER`) VALUES ('"+ scheduleID +"',"+ Day + ","+ Shift+ ",'"+ Location+ "','"+ Semester+"','"+ Year+ "','"+ TeacherID + "')";
-			stmt.executeUpdate(queryDelete);
+			//stmt.executeUpdate(queryDelete);
 			stmt.executeUpdate(queryInsert);
 			//stmt.executeUpdate("INSERT INTO `schedule`(`ID`, `DAY`, `SHIFT`, `LOCATION`, `SEMESTER`, `YEAR`, `IDTEACHER`) VALUES ('"+ scheduleID +"',"+ Day + ", +"+ Shift+ "0,+'"+ Location+ "','"+ Semester+",'"+ Year+ "','"+ TeacherID + "')");
 			System.out.println("query Insert: " + queryInsert);
-			System.out.println("query Delete: " + queryDelete);
+			//System.out.println("query Delete: " + queryDelete);
+			System.out.println("Success Add Schedule Function!");
+			System.out.println("***********************************");
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1243,6 +1258,8 @@ public class TeacherManagementServices {
 		ResultSet rs = null;
 		ArrayList<Salary> ArraySalary = new ArrayList<Salary>();
 		try {
+			System.out.println("***********************************");
+			System.out.println("Begin Get List Salary Function");
 			Class.forName("com.mysql.jdbc.Driver");
 			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
 			String connectionUser = "root";
@@ -1267,11 +1284,11 @@ public class TeacherManagementServices {
 				salary.setYear(year);
 				salary.setTotal(total);
 				salary.setTeacherID(teacherID);
-				
-				System.out.println("ID: " + salary.getId());
-				System.out.println("total: " + salary.getTotal());
 				ArraySalary.add(salary);
 			}
+			System.out.println("Success Get List Salary Function!");
+			System.out.println("***********************************");
+			
 			return ArraySalary;
 				
 		} catch (Exception e) {
@@ -1294,11 +1311,12 @@ public class TeacherManagementServices {
 			@FormParam("Year") int Year,
 			@FormParam("Total") Double Total
 	) {
-		System.out.println("Begin Add Salary");
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
+			System.out.println("***********************************");
+			System.out.println("Begin Add Salary Function");
 			Class.forName("com.mysql.jdbc.Driver");
 			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
 			String connectionUser = "root";
@@ -1313,6 +1331,8 @@ public class TeacherManagementServices {
 			stmt.executeUpdate(queryInsert);
 			//stmt.executeUpdate("INSERT INTO `schedule`(`ID`, `DAY`, `SHIFT`, `LOCATION`, `SEMESTER`, `YEAR`, `IDTEACHER`) VALUES ('"+ scheduleID +"',"+ Day + ", +"+ Shift+ "0,+'"+ Location+ "','"+ Semester+",'"+ Year+ "','"+ TeacherID + "')");
 			System.out.println("query Insert: " + queryInsert);
+			System.out.println("Success Add Salary Function");
+			System.out.println("***********************************");
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1322,6 +1342,113 @@ public class TeacherManagementServices {
 			try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
 		}
 		return false;
+	}
+	
+	@POST
+	@Path("/getListTeacherID/")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<String> getListTeacherID() {
+		System.out.println("Begin get List Teacher");
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		ArrayList<String> lstID = new ArrayList<String>();
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectionUser = "root";
+			String connectionPassword = "";
+			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+			
+			stmt = conn.createStatement();
+			String querySelect = "SELECT ID FROM `TEACHER`";
+			rs = stmt.executeQuery(querySelect);
+			while (rs.next())
+			{
+				String ID = rs.getString("ID");
+				lstID.add(ID);
+			}
+			return lstID;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+			try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+			try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+		}
+		return null;
+	}
+	
+	@POST
+	@Path("filterTeacher/")  
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)    
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Teacher> FilterTeacher(@FormParam("Status") String Status) 
+	{
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		ArrayList<Teacher> ArrayTeacher = new ArrayList<Teacher>();
+		try {
+			System.out.println("***********************************");
+			Class.forName("com.mysql.jdbc.Driver");
+			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectionUser = "root";
+			String connectionPassword = "";
+			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("SELECT * FROM `teacher` WHERE STATUS = " + Status);
+			System.out.println("Begin Filter List Teacher:");
+			
+			while (rs.next())
+			{
+				 String id = 				 rs.getString("ID");
+				 String name = 				 rs.getString("NAME");
+				 /* DOB */
+				 Date DOB = rs.getDate("DOB");
+				 String DOBStr = DOB.toString();
+				 DateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd");
+				 utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+				 DOB = utcFormat.parse(DOBStr);
+				 /*      */
+				 String identifycardnumber = rs.getString("IDENTIFYCARDNUMBER");
+				 String gender =			 rs.getString("GENDER");
+				 String phonenumber =		 rs.getString("PHONENUMBER");
+				 String country = 			 rs.getString("COUNTRY");
+				 String email =				 rs.getString("EMAIL");
+				 String address =			 rs.getString("ADDRESS");
+				 String religion =			 rs.getString("RELIGION");
+				 Boolean status  =           rs.getBoolean("STATUS");
+				 String subjectname =	     rs.getString("SUBJECT_NAME");
+				 
+				 Teacher teacher = new Teacher();
+				 teacher.setId(id);
+				 teacher.setName(name);
+				 teacher.setDOB(DOB);
+				 teacher.setIdentifycardnumber(identifycardnumber);
+				 teacher.setGender(gender);
+				 teacher.setPhonenumber(phonenumber);
+				 teacher.setCountry(country);
+				 teacher.setEmail(email);
+				 teacher.setAddress(address);
+				 teacher.setReligion(religion);
+				 teacher.setStatus(status);
+				 teacher.setSubjectname(subjectname);
+				 
+				 ArrayTeacher.add(teacher);
+			}
+			System.out.println("***********************************");
+			return ArrayTeacher;
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+			try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+			try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+		}
+		return ArrayTeacher ;
 	}
 	
 }
