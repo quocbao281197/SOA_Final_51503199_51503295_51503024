@@ -1,57 +1,67 @@
 <head>
-<title>Announcement</title>
+<title>View Announcement</title>
 </head>
 <?php
     require_once('headers/header.php');
 ?>
-
-<body>
 <?php
+
     if(!isset($_SESSION["username"])){
         header("Location: ../login.php");
     }
+
+    if(isset($_GET["title"])){
+        $title       = $_GET["title"];
+    }
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/Teacher_Management_Final/rest/Teacher/TeacherManagement/GetListAnnouncement/");
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/Teacher_Management_Final/rest/Teacher/ViewAnnouncement/");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded')); // In Java: @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 
     //$data = array('username'=>$_SESSION['username']);
-    $data = array();
+    $data = array('TITLE'=> $_GET["title"]);
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-
-    $array_Announcement = curl_exec($ch);
+    $output = curl_exec($ch);
     $info = curl_getinfo($ch);
     curl_close($ch);
-    //echo $array_Announcement;
-    $test = (array)json_decode($array_Announcement,true);
+    $result = (array) json_decode($output);
+    // Announcement information
+    $title                           = $result['title'];
+    $idadmin                         = $result['idadmin'];
+    $datepost                        = $result['datepost'];
+    $content                         = $result['content'];
 ?>
-
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title" style="text-align:center; color:red">Announcement</h4>
+                                <h2 class="title" style="text-align:center; color:cadetblue"><?= $title?></h4>
                             </div>
                             <div class="content">
-                                <?php
-                                    foreach($test as $a){
-                                        
-                                    ?> 
-                                        <div class="typo-line">
-                                        <p class="category" style ="max-width:300px"><?= substr($a['datepost'], 0, 10);?></p>
-                                        <a class="text-info" style ="cursor:pointer;" href="ViewAnnoucement.php?title=<?=$a['title']?>">
-                                            <?= $a['title']?>
-                                        </a>
+                                <div class="row">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-4">
+                                        <h5 style="color:tomato">Upload By: <?= $idadmin?></h5>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h5 style="color:tomato">Uploaded at: <?= $datepost?></h5>
+                                    </div>
+                                    <div class="col-md-2"></div>
                                 </div>
-                                    <?php
-                                    }
-                                ?>
+                                
+                                <div class="row">
+                                    <div class="col-md-2">
+
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h3><?= $content?></h3>
+                                    </div>
+                                    <div class="col-md-2"></div>
+                                </div>
                             </div>
-							
-							
                         </div>
                     </div>
 

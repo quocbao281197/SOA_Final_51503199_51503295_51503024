@@ -10,7 +10,8 @@
 	  
 	<!-- Bootstrap CSS-->
 	<link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
-	<title>Schedule Template | CodyHouse</title>
+	<title>Schedule</title>
+	<base target="_blank">
 </head>
 <?php
 	ob_start();
@@ -143,7 +144,7 @@
 		</div>
 
 	</div>
-<div style="text-align: center; font-size:70px; color:#8c42f4;"><h1>TEACHER SCHEDULE</h1></div>
+<div style="text-align: center; font-size:70px; color:#8c42f4;"><h1>SCHEDULE</h1></div>
 <div class="cd-schedule loading">
 	<div class="timeline">
 		<ul>

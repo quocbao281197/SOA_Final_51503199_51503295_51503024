@@ -1,10 +1,10 @@
 <?php
-//Huy session
-session_start();
-unset($_SESSION['username']);
-
-
-//Chuyen den trang login
-header('Location: login.php');
-
+    //remove PHPSESSID from browser
+    if ( isset( $_COOKIE[session_name()] ) )
+    setcookie( session_name(), “”, time()-3600, “/” );
+    //clear session from globals
+    $_SESSION = array();
+    //clear session from disk
+    session_destroy();
+    header('Location: login.php');
 ?>

@@ -32,12 +32,28 @@
 
     <!-- Main CSS-->
     <link href="css/theme.css" rel="stylesheet" media="all">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
+	<script type="text/javascript">
 
+        $(document).ready(function () {
+
+        window.setTimeout(function() {
+            $(".alert").fadeTo(1000, 0).slideUp(1000, function(){
+                $(this).remove(); 
+            });
+        }, 5000);
+
+        });
+    </script>
 </head>
 <?php
     ob_start();
     session_start();
     $username = $_SESSION["username"];
+
+    $adminname = $_SESSION['adminname'];
+    $adminemail = $_SESSION['adminemail'];
 ?>
 <body class="animsition">
     <div class="page-wrapper">

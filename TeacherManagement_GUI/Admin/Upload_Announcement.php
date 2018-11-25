@@ -1,7 +1,11 @@
 <?php
     require_once('headers/AnnouncementHeader.php');
 ?>
-            
+<?php
+    if(!isset($_SESSION["username"])){
+        header("Location: ../login.php");
+    }
+?>            
             <!-- MAIN CONTENT-->
             <div class="main-content">
                 <div class="section__content section__content--p30">
@@ -48,7 +52,7 @@
                         <?php
                             if(isset($_POST['Title_input']) && isset($_POST['Content_input']) ){
                                 $ch = curl_init();
-                                curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/TeacherManagement/rest/Teacher/Admin/UploadAnnoucement/");
+                                curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/Teacher_Management_Final/rest/Teacher/Admin/UploadAnnoucement/");
                                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                                 curl_setopt($ch, CURLOPT_POST, 1);
                                 curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded')); // In Java: @Consumes(MediaType.APPLICATION_FORM_URLENCODED)

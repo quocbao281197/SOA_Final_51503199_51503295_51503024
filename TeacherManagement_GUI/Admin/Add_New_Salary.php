@@ -1,7 +1,11 @@
 <?php
     require_once('headers/SalaryHeader.php');
 ?>
-
+<?php
+    if(!isset($_SESSION["username"])){
+        header("Location: ../login.php");
+    }
+?>
             <!-- MAIN CONTENT-->
             <div class="main-content">
                 <div class="section__content section__content--p30">

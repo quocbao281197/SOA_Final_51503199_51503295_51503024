@@ -1,11 +1,16 @@
 <?php
     require_once('headers/TeacherManagementHeader.php');
 ?>
+
 <?php
     if(!isset($_SESSION["username"])){
         header("Location: ../login.php");
     }
+    if(isset($_GET["Status"])){
+        $Status       = $_GET["Status"];
+    }
 ?>
+
             <!-- MAIN CONTENT-->
             <div class="main-content">
                 <div class="section__content section__content--p30">
@@ -19,8 +24,8 @@
                                         <div class="rs-select2--light rs-select2--md">
                                             <select class="js-select2" name="Properties_Sorted">
                                                 <option selected="selected">All Properties</option>
-                                                <option value="1">Actived</option>
-                                                <option value="0">DeActived</option>
+                                                <option value="Actived">Actived</option>
+                                                <option value="DeActived">DeActived</option>
                                             </select>
                                             <div class="dropDownSelect2"></div>
                                         </div>
@@ -48,7 +53,7 @@
 
                                         <?php
                                             $ch = curl_init();
-                                            curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/Teacher_Management_Final/rest/Teacher/Admin/GetListTeacher/");
+                                            curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/Teacher_Management_Final/rest/Teacher/TeacherManagement/GetListTeacher/");
                                             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                                             curl_setopt($ch, CURLOPT_POST, 1);
                                             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded')); // In Java: @Consumes(MediaType.APPLICATION_FORM_URLENCODED)

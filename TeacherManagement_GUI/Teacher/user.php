@@ -1,46 +1,16 @@
-<!doctype html>
-<html lang="vi">
 <head>
-	<meta charset="utf-8" />
-	<link rel="icon" type="image/png" href="assets/img/favicon.ico">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-
-	<title>USER PROFILE</title>
-
-	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
-    <meta name="viewport" content="width=device-width" />
-
-
-    <!-- Bootstrap core CSS     -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
-
-    <!-- Animation library for notifications   -->
-    <link href="assets/css/animate.min.css" rel="stylesheet"/>
-
-    <!--  Light Bootstrap Table core CSS    -->
-    <link href="assets/css/light-bootstrap-dashboard.css?v=1.4.0" rel="stylesheet"/>
-
-
-    <!--  CSS for Demo Purpose, don't include it in your project     -->
-    <link href="assets/css/demo.css" rel="stylesheet" />
-
-
-    <!--     Fonts and icons     -->
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
-    <link href="assets/css/pe-icon-7-stroke.css" rel="stylesheet" />
+<title>My Account</title>
 </head>
-<body>
 <?php
-    ob_start();
-    session_start();
-    if (!isset($_SESSION['username'])){
-        header("Location: login.php");
+    require_once('headers/header.php');
+?>
+<?php
+    if(!isset($_SESSION["username"])){
+        header("Location: ../login.php");
     }
-    $username = $_SESSION['username'];
 
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/TeacherManagement/rest/Teacher/TeacherManagement/ViewTeacherInfomation/");
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/Teacher_Management_Final/rest/Teacher/ViewTeacherInfomation/");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded')); // In Java: @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -64,104 +34,16 @@
     $religion                       = $result['religion'];
     $subjectname                    = $result['subjectname'];
 ?>
-<div class="wrapper">
-    <div class="sidebar" data-color="purple" data-image="assets/img/sidebar-5.jpg">
-
-    <!--   you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple" -->
-
-
-    	<div class="sidebar-wrapper">
-            <div class="logo">
-                <a href="http://www.creative-tim.com" class="simple-text">
-                    Teacher Management System
-                </a>
-            </div>
-
-            <ul class="nav">
-                <li class="active">
-                    <a href="user.php">
-                        <i class="pe-7s-user"></i>
-                        <p>User Profile</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="schedule.php">
-                        <i class="pe-7s-note2"></i>
-                        <p>Teaching Schedule</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="salary.php">
-                        <i class="pe-7s-news-paper"></i>
-                        <p>Personal Salary</p>
-                    </a>
-                </li>
-				<li>
-                    <a href="salary_chart.php">
-                        <i class="pe-7s-graph"></i>
-                        <p>Salary Chart</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="announcement.php">
-                        <i class="pe-7s-bell"></i>
-                        <p>Announcement</p>
-                    </a>
-                </li>
-            </ul>
-    	</div>
-    </div>
-
-    <div class="main-panel">
-		<nav class="navbar navbar-default navbar-fixed">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#" style="color:red">Teacher Account</a>
-                </div>
-                <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav navbar-left">
-                        <li>
-                           <a href="">
-                                <i class="fa fa-search"></i>
-								<p class="hidden-lg hidden-md">Search</p>
-                            </a>
-                        </li>
-                    </ul>
-
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                           <a href="">
-                               <p><?php echo $_SESSION['username']?></p>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="TeacherLogout.php">
-                                <p>Log out</p>
-                            </a>
-                        </li>
-						<li class="separator hidden-lg hidden-md"></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <div class="card">
                             <div class="header">
                                 <h4 class="title">Edit Profile</h4>
                             </div>
                             <div class="content">
-                                <form>
+                                <form method="post">
                                     <div class="row">
                                         <div class="col-md-5">
                                             <div class="form-group">
@@ -172,7 +54,7 @@
                                         <div class="col-md-7">
                                             <div class="form-group">
                                                 <label>Email address</label>
-                                                <input type="text" class="form-control" placeholder="quocbao281197@gmail.com" value="<?php echo $email?>">
+                                                <input type="text" class="form-control" name = "EMAIL_INPUT" placeholder="quocbao281197@gmail.com" value="<?php echo $email?>">
                                             </div>
                                         </div>
                                     </div>
@@ -197,7 +79,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Identify Card Number</label>
-                                                <input type="text" class="form-control" placeholder="xxxxxxxxxx" value="<?php echo $identifycardnumber?>">
+                                                <input type="text" class="form-control" name = "IDENTIFY_CARD_NUMBER_INPUT" placeholder="xxxxxxxxxx" value="<?php echo $identifycardnumber?>">
                                             </div>
                                         </div>
 										
@@ -211,7 +93,7 @@
 										<div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Phone Number</label>
-                                                <input type="text" class="form-control" placeholder="xxxxxxxxxx" value="<?php echo $phonenumber?>">
+                                                <input type="text" class="form-control" name = "PHONE_NUMBER_INPUT" placeholder="xxxxxxxxxx" value="<?php echo $phonenumber?>">
                                             </div>
                                         </div>
                                     </div>
@@ -220,7 +102,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label>Address</label>
-                                                <input type="text" class="form-control" placeholder="Home Address" value="<?php echo $address?>">
+                                                <input type="text" class="form-control" name = "ADDRESS_INPUT" placeholder="Home Address" value="<?php echo $address?>">
                                             </div>
                                         </div>
                                     </div>
@@ -229,19 +111,19 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Religion</label>
-                                                <input type="text" class="form-control" placeholder="Religion" value="<?php echo $religion?>">
+                                                <input type="text" class="form-control" name = "RELIGION_INPUT" placeholder="Religion" value="<?php echo $religion?>">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Country</label>
-                                                <input type="text" class="form-control" placeholder="Country" value="<?= $country?>">
+                                                <input type="text" class="form-control" name = "COUNTRY_INPUT" placeholder="Country" value="<?= $country?>">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Subject Name:</label>
-                                                <input type="text" class="form-control" placeholder="Subject ID" value="<?= $subjectname?>">
+                                                <input type="text" class="form-control" name = "SUBJECT_INPUT" placeholder="Subject ID" value="<?= $subjectname?>">
                                             </div>
                                         </div>
                                     </div>
@@ -258,82 +140,89 @@
                                     <button type="submit" class="btn btn-info btn-fill pull-right">Update Profile</button>
                                     <div class="clearfix"></div>
                                 </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card card-user">
-                            <div class="image">
-                                <img src="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400" alt="..."/>
-                            </div>
-                            <div class="content">
-                                <div class="author">
-                                     <a href="#">
-                                    <img class="avatar border-gray" src="assets/img/faces/face-3.jpg" alt="..."/>
-
-                                      <h4 class="title">Mike Andrew<br />
-                                         <small>michael24</small>
-                                      </h4>
-                                    </a>
+                                <div id="alert-addSuccess" class="alert alert-success" style="display: none ;text-allign:center" >
+                                    <strong>Update Private Information Success!</strong>
                                 </div>
-                                <p class="description text-center"> "Lamborghini Mercy <br>
-                                                    Your chick she so thirsty <br>
-                                                    I'm in that two seat Lambo"
-                                </p>
                             </div>
-                            <hr>
-                            <div class="text-center">
-                                <button href="#" class="btn btn-simple"><i class="fa fa-facebook-square"></i></button>
-                                <button href="#" class="btn btn-simple"><i class="fa fa-twitter"></i></button>
-                                <button href="#" class="btn btn-simple"><i class="fa fa-google-plus-square"></i></button>
-
-                            </div>
+                            <?php
+                                // if(isset($_POST['NAME_INPUT'])  && isset($_POST['DOB_INPUT']) 
+                                //                                 && isset($_POST['IDENTIFY_CARD_NUMBER_INPUT']) 
+                                //                                 && isset($_POST['COUNTRY_INPUT']) 
+                                //                                 && isset($_POST['GENDER_INPUT']) 
+                                //                                 && isset($_POST['PHONE_NUMBER_INPUT']) 
+                                //                                 && isset($_POST['EMAIL_INPUT']) 
+                                //                                 && isset($_POST['ADDRESS_INPUT']) 
+                                //                                 && isset($_POST['RELIGION_INPUT'])
+                                //                                 && isset ($_POST['SUBJECT_INPUT']))
+                                // {    
+                                //     $username_input              = $_POST['NAME_INPUT'];
+                                //     $DOB_input                   = $_POST['DOB_INPUT'];
+                                //     $GENDER_input                = $_POST['GENDER_INPUT'];                
+                                //     // Update Information
+                                //     $ch = curl_init();
+                                //     curl_setopt( $ch, CURLOPT_ENCODING, "UTF-8" );
+                                //     curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/Teacher_Management_Final/rest/Teacher/TeacherManagement/UpdatePersonalInfomation/");
+                                //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                //     curl_setopt($ch, CURLOPT_POST, 1);
+                                //     curl_setopt($ch, CURLOPT_HTTPHEADER , array(
+                                //         'Content-Type: application/x-www-form-urlencoded; charset=utf-8',
+                                //     ));
+                                //     //curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded; charset=utf-8')); // In Java: @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+                                //     $data = array('ID'=>$_SESSION['username'], 'TEACHERNAME' => $username_input
+                                //                     , 'DOB' => $DOB_input
+                                //                     , 'GENDER' => $GENDER_input );
+                                //     //$data = array();
+                                //     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+                                //     $output = curl_exec($ch);
+                                //     $info = curl_getinfo($ch);
+                                //     curl_close($ch);
+                                // }
+                                if(isset($_POST['NAME_INPUT'])  && isset($_POST['DOB_INPUT']) 
+                                                                && isset($_POST['IDENTIFY_CARD_NUMBER_INPUT']) 
+                                                                && isset($_POST['COUNTRY_INPUT']) 
+                                                                && isset($_POST['GENDER_INPUT']) 
+                                                                && isset($_POST['PHONE_NUMBER_INPUT']) 
+                                                                && isset($_POST['EMAIL_INPUT']) 
+                                                                && isset($_POST['ADDRESS_INPUT']) 
+                                                                && isset($_POST['RELIGION_INPUT'])
+                                                                && isset($_POST['SUBJECT_INPUT'])){
+                                    $ch = curl_init();
+                                    curl_setopt( $ch, CURLOPT_ENCODING, "UTF-8" );
+                                    curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/Teacher_Management_Final/rest/Teacher/UpdatePersonalInfomation/");
+                                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                    curl_setopt($ch, CURLOPT_POST, 1);
+                                    curl_setopt($ch, CURLOPT_HTTPHEADER , array(
+                                        'Content-Type: application/x-www-form-urlencoded; charset=utf-8',
+                                    ));
+                                    $data = array('ID'=>$_SESSION['username'], 'TEACHERNAME' =>$_POST['NAME_INPUT']
+                                                    , 'DOB' => $_POST['DOB_INPUT']
+                                                    , 'GENDER'=> $_POST['GENDER_INPUT']
+                                                    , 'PHONENUMBER' => $_POST['PHONE_NUMBER_INPUT']
+                                                    , 'COUNTRY' => $_POST['COUNTRY_INPUT']
+                                                    , 'EMAIL' => $_POST['EMAIL_INPUT']
+                                                    , 'ADDRESS' => $_POST['ADDRESS_INPUT']
+                                                    , 'RELIGION' => $_POST['RELIGION_INPUT']);
+                                                    //, @FormParam("PASSWORD") String PASSWORD);
+                                    //$data = array();
+                                    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+                                    $output = curl_exec($ch);
+                                    $info = curl_getinfo($ch);
+                                    curl_close($ch);
+                                    if($output == "true"){
+                                        ?>
+                                            <script>
+                                                document.getElementById('alert-addSuccess').style.display = 'block';
+                                            </script>
+                                        <?php
+                                            echo("<meta http-equiv='refresh' content='3'>");
+                                    }
+                                }
+                            ?>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
-        <?php
-                            if(isset($_POST['NAME_INPUT']) && isset($_POST['status_select']) && isset($_POST['subject_select']) && isset($_POST['DOB_INPUT']) && isset($_POST['IDENTIFY_CARD_NUMBER_INPUT']) && isset($_POST['COUNTRY_INPUT']) && isset($_POST['gender_select']) && isset($_POST['PHONE_NUMBER_INPUT']) && isset($_POST['EMAIL_INPUT']) && isset($_POST['ADDRESS_INPUT']) && isset($_POST['RELIGION_INPUT'])){
-                                
-                                $username_input              = $_POST['NAME_INPUT'];
-                                $DOB_input                   = $_POST['DOB_INPUT'];
-                                $GENDER_input                = $_POST['GENDER_INPUT'];
-
-
-                                //htmlentities($_POST['NAME_INPUT'], ENT_QUOTES, "UTF-8");
-
-                                // $username_input              = mb_convert_encoding($_POST['NAME_INPUT'], "HTML-ENTITIES", "UTF-8");
-                                // $status_input                = mb_convert_encoding($_POST['status_select'], "HTML-ENTITIES", "UTF-8");
-                                // $subject_input               = mb_convert_encoding($_POST['subject_select'], "HTML-ENTITIES", "UTF-8");
-                                // $DOB_input                   = mb_convert_encoding($_POST['DOB_INPUT'], "HTML-ENTITIES", "UTF-8");
-                                // $Identify_Card_Number_input  = mb_convert_encoding($_POST['IDENTIFY_CARD_NUMBER_INPUT'], "HTML-ENTITIES", "UTF-8");
-                                // $Country_input               = mb_convert_encoding($_POST['COUNTRY_INPUT'], "HTML-ENTITIES", "UTF-8");
-                                // $gender_selected             = mb_convert_encoding($_POST['gender_select'], "HTML-ENTITIES", "UTF-8");
-                                // $phone_input                 = mb_convert_encoding($_POST['PHONE_NUMBER_INPUT'], "HTML-ENTITIES", "UTF-8");
-                                // $email_input                 = mb_convert_encoding($_POST['EMAIL_INPUT'], "HTML-ENTITIES", "UTF-8");
-                                // $Address_input               = mb_convert_encoding($_POST['ADDRESS_INPUT'], "HTML-ENTITIES", "UTF-8");
-                                // $Religion_input              = mb_convert_encoding($_POST['RELIGION_INPUT'], "HTML-ENTITIES", "UTF-8");
-                                
-                                // Update Information
-                                $ch = curl_init();
-                                curl_setopt( $ch, CURLOPT_ENCODING, "UTF-8" );
-                                curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/TeacherManagement/rest/Teacher/TeacherManagement/UpdatePersonalInfomation/");
-                                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                                curl_setopt($ch, CURLOPT_POST, 1);
-                                curl_setopt($ch, CURLOPT_HTTPHEADER , array(
-                                    'Content-Type: application/x-www-form-urlencoded; charset=utf-8',
-                               ));
-                                //curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded; charset=utf-8')); // In Java: @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-                                $data = array('ID'=>$_SESSION['username'], 'TEACHERNAME' => $username_input, 'DOB' => $DOB_input, 'GENDER' => $GENDER_input );
-                                //$data = array();
-                                curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-                                $output = curl_exec($ch);
-                                $info = curl_getinfo($ch);
-                                curl_close($ch);
-                            }
-                        ?>
 
         <footer class="footer">
             <div class="container-fluid">

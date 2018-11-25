@@ -1,12 +1,15 @@
 <?php
     ob_start();
     session_start();
+    if(!isset($_SESSION["username"])){
+        header("Location: ../login.php");
+    }
     $username = $_SESSION["username"];
     if(isset($_GET["id"])){
         $id       = $_GET["id"];
     }
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/TeacherManagement/rest/Teacher/TeacherManagement/DeleteTeacher/");
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/Teacher_Management_Final/rest/Teacher/TeacherManagement/DeleteTeacher/");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded')); // In Java: @Consumes(MediaType.APPLICATION_FORM_URLENCODED)

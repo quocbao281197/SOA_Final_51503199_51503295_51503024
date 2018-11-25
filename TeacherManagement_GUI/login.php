@@ -26,7 +26,33 @@
 	<link rel="stylesheet" type="text/css" href="login_Style/css/util.css">
 	<link rel="stylesheet" type="text/css" href="login_Style/css/main.css">
 	<!--===============================================================================================-->
+	<link href="css/theme.css" rel="stylesheet" media="all">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+
+		window.setTimeout(function() {
+			$(".alert").fadeTo(1000, 0).slideUp(1000, function(){
+				$(this).remove(); 
+			});
+		}, 5000);
+
+		});
+	</script>
 </head>
+
+<?php
+	if(isset($_SESSION["username"])){
+		$name = substr($_SESSION["username"],0,2);
+		echo $name;
+		// if($name == "AD"){
+		// 	header("Location: Admin/Admin_Account.php");
+		// }
+		// else {
+		// 	header("Location: Teacher/user.php");
+		// }
+	}
+?>
 <body>
 <?php date_default_timezone_set('Asia/Ho_Chi_Minh'); ?>
 <div class="limiter">
@@ -47,28 +73,13 @@
 					<span class="focus-input100"></span>
 				</div>
 
-				<div class="flex-sb-m w-full p-t-3 p-b-24">
-					<div class="contact100-form-checkbox">
-						<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
-						<label class="label-checkbox100" for="ckb1">
-							Remember me
-						</label>
-					</div>
-
-					<div>
-						<a href="#" class="txt1">
-							Forgot?
-						</a>
-					</div>
-				</div>
-
 				<div class="container-login100-form-btn m-t-17">
 					<button class="login100-form-btn">
 						Login
 					</button>
 				</div>
 			</form>
-			<div id="alert" class="alert alert-danger" style="display: none ; float: center; text-allign:center" >
+			<div id="alert-addFail" class="alert alert-danger" style="display: none ; float: center; text-allign:center" >
 				<strong> Wrong username or password!!!! Please retype information</strong>
 			</div>
 		</div>
@@ -77,7 +88,7 @@
 		{
 			// Send username/password to Tomcat server for authenticating
 			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/TeacherManagement/rest/Teacher/login/");
+			curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/Teacher_Management_Final/rest/Teacher/login/");
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_POST, 1);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded')); // In Java: @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -88,52 +99,26 @@
 			$output = curl_exec($ch);
 			$info = curl_getinfo($ch);
 			curl_close($ch);
-
 			//If the server returns TRUE, then print something
 			if($output == "1")
 			{
- 				// $ch = curl_init();
-				// curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/TeacherManagement/rest/Teacher/logging/");
-				// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-				// curl_setopt($ch, CURLOPT_POST, 1);
-				// curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded')); // In Java: @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-
-				// $data = array('username'=>$_POST['username']);
-				// curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-
-				// $output1 = curl_exec($ch);
-				// $info = curl_getinfo($ch);
-				// curl_close($ch);
-				// echo $output1; 
-/* 				session_start();
-				$_SESSION["username"]          = $_POST['username']; 
-				header("Location: Teacher/admin.php"); */
 				session_start();
 				$_SESSION["username"]          = $_POST['username']; 
 				header("Location: Admin/Admin_Account.php");
 			}
 			else if($output == "0")
 			{
-/* 				$ch = curl_init();
-				curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/TeacherManagement/rest/Teacher/logging/");
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-				curl_setopt($ch, CURLOPT_POST, 1);
-				curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded')); // In Java: @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-
-				$data = array('username'=>$_POST['username']);
-				curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-
-				$output1 = curl_exec($ch);
-				$info = curl_getinfo($ch);
-				curl_close($ch);
-				echo $output1; */
 				session_start();
 				$_SESSION["username"]          = $_POST['username']; 
 				header("Location: Teacher/user.php");
 				//header("Location: teacher.html");
 			}
-			else if($output == "3"){
-				header("Location: login.php");
+			else if($output == "99"){
+				?>
+			 		<script>
+						document.getElementById('alert-addFail').style.display = 'block';
+					</script>
+			 	<?php
 			}
 		}
 		?>

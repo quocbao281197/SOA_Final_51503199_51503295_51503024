@@ -2,6 +2,24 @@
     require_once('headers/ScheduleHeader.php');
 ?>
 
+<?php
+    if(!isset($_SESSION["username"])){
+        header("Location: ../login.php");
+    }
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/Teacher_Management_Final/rest/Teacher/getListTeacherID/");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded')); // In Java: @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    $data = array();
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+
+    $array_ID = curl_exec($ch);
+    $info = curl_getinfo($ch);
+    curl_close($ch);
+    $arrID = (array)json_decode($array_ID,true);
+?>
+
             <!-- MAIN CONTENT-->
             <div class="main-content">
                 <div class="section__content section__content--p30">
@@ -22,9 +40,13 @@
                                                 <div class="col-12 col-md-9">
                                                     <select name="GV_select" id="GV" class="form-control">
                                                         <option value="0">Please select</option>
-                                                        <option value="GV001">GV001</option>
-                                                        <option value="GV002">GV002</option>
-                                                        <option value="GV003">GV003</option>
+                                                        <?php
+                                                            foreach($arrID as $item){
+                                                                ?>
+                                                                    <option value="<?= $item?>"><?= $item?></option>
+                                                                <?php
+                                                            }
+                                                        ?>
                                                     </select>
                                                 </div>
                                             </div>
