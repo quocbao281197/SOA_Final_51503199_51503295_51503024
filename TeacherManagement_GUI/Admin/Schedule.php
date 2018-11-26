@@ -18,6 +18,20 @@
     $info = curl_getinfo($ch);
     curl_close($ch);
     $arrID = (array)json_decode($array_ID,true);
+
+    // get year
+    $ch1 = curl_init();
+    curl_setopt($ch1, CURLOPT_URL, "http://localhost:8080/Teacher_Management_Final/rest/Teacher/getYear/");
+    curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch1, CURLOPT_POST, 1);
+    curl_setopt($ch1, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded')); // In Java: @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    $data = array();
+    curl_setopt($ch1, CURLOPT_POSTFIELDS, http_build_query($data));
+
+    $array_Year = curl_exec($ch1);
+    $info = curl_getinfo($ch1);
+    curl_close($ch1);
+    $arrYear = (array)json_decode($array_Year,true);
 ?>
 
             <!-- MAIN CONTENT-->
@@ -71,8 +85,13 @@
                                                 <div class="col-12 col-md-9">
                                                     <select name="Year_select" id="Year" class="form-control">
                                                         <option value="0">Please select</option>
-                                                        <option value="2018">2018</option>
-                                                        <option value="2019">2019</option>
+                                                        <?php
+                                                            foreach($arrYear as $y){
+                                                                ?>
+                                                                    <option value="<?= $y?>"><?= $y?></option>
+                                                                <?php
+                                                            }
+                                                        ?>
                                                     </select>
                                                 </div>
                                             </div>
@@ -81,9 +100,6 @@
                                                 <button type="submit" class="btn btn-primary btn-sm">
                                                     View
                                                 </button>
-                                                <button type="reset" class="btn btn-danger btn-sm">
-                                                    Reset
-                                                </button >
                                                 <button style="background-color: #4CAF50" class="btn btn-primary btn-sm">
                                                     <i class="zmdi zmdi-plus"></i><a href="Add_New_Schedule.php" style="color:white">Add</a>
                                                 </button>

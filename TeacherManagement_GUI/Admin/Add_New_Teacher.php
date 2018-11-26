@@ -1,196 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <!-- Required meta tags-->
-    
-    <meta http-equiv="Content-Type" content="text/html; charset= UTF-8"/>
-    <!-- <meta charset="UTF-8"> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="au theme template">
-    <meta name="author" content="Hau Nguyen">
-    <meta name="keywords" content="au theme template">
-
-    <!-- Title Page-->
-    <title>Edit Information</title>
-
-    <!-- Fontfaces CSS-->
-    <link href="css/font-face.css" rel="stylesheet" media="all">
-    <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
-    <link href="vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
-    <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
-
-    <!-- Bootstrap CSS-->
-    <link href="vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
-
-    <!-- Vendor CSS-->
-    <link href="vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
-    <link href="vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
-    <link href="vendor/wow/animate.css" rel="stylesheet" media="all">
-    <link href="vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
-    <link href="vendor/slick/slick.css" rel="stylesheet" media="all">
-    <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
-    <link href="vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
-
-    <!-- Main CSS-->
-    <link href="css/theme.css" rel="stylesheet" media="all">
-
-</head>
+<?php
+    require_once('headers/TeacherManagementHeader.php');
+?>
 
 <?php
-    ob_start();
-    session_start();
     if(!isset($_SESSION["username"])){
         header("Location: ../login.php");
     }
-    $username    = $_SESSION["username"];
-    $adminname   = $_SESSION['adminname'];
-    $adminemail  = $_SESSION['adminemail'];
 ?>
 
-<body class="animsition">
-    <div class="page-wrapper">
-        <!-- HEADER MOBILE-->
-        <header class="header-mobile d-block d-lg-none">
-            <div class="header-mobile__bar">
-                <div class="container-fluid">
-                    <div class="header-mobile-inner">
-                        <a class="logo" href="#">
-                            <img src="images/icon/logo.png" alt="CoolAdmin" />
-                        </a>
-                        <button class="hamburger hamburger--slider" type="button">
-                            <span class="hamburger-box">
-                                <span class="hamburger-inner"></span>
-                            </span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <nav class="navbar-mobile">
-                <div class="container-fluid">
-                    <ul class="navbar-mobile__list list-unstyled">
-                        <li class="active">
-                            <a href="Admin_Account.php">
-                                <i class="fas fa-user"></i>My Account</a>
-                        </li>
-                        <li class="has-sub">
-                            <a class="js-arrow" href="#">
-                                <i class="fas fa-bell"></i>Announcement</a>
-                            <ul class="list-unstyled navbar__sub-list js-sub-list">
-                                <li>
-                                    <a href="Upload_Announcement.php">Upload new Announcement</a>
-                                </li>
-                                <li>
-                                    <a href="View_All_Announcement.php">View all Announcement</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="Schedule.php">
-                                <i class="fas fa-table"></i>Schedule</a>
-                        </li>
-                        <li>
-                            <a href="TeacherManagement.php">
-                                <i class="fas fa-users"></i>TeacherManagement</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </header>
-        <!-- END HEADER MOBILE-->
-
-
-        <!-- MENU SIDEBAR-->
-        <aside class="menu-sidebar d-none d-lg-block">
-            <div class="logo">
-                <a href="#">
-                    <img src="images/icon/logo.png" alt="CoolAdmin" />
-                </a>
-            </div>
-            <div class="menu-sidebar__content js-scrollbar1">
-                <nav class="navbar-sidebar">
-                    <ul class="list-unstyled navbar__list">
-                        <li>
-                            <a href="Admin_Account.php">
-                                <i class="fas fa-user"></i>My Account</a>
-                        </li>
-                        <li class="has-sub">
-                            <a class="js-arrow" href="#">
-                                <i class="fas fa-bell"></i>Announcement</a>
-                            <ul class="list-unstyled navbar__sub-list js-sub-list">
-                                <li>
-                                    <a href="Upload_Announcement.php">Upload new Announcement</a>
-                                </li>
-                                <li>
-                                    <a href="View_All_Announcement.php">View all Announcement</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="Schedule.php">
-                                <i class="fas fa-table"></i>Schedule</a>
-                        </li>
-                        <li class="active">
-                            <a href="TeacherManagement.php">
-                                <i class="fas fa-users"></i>TeacherManagement</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </aside>
-        <!-- END MENU SIDEBAR-->
-
-        <!-- PAGE CONTAINER-->
-        <div class="page-container">
-            <!-- HEADER DESKTOP-->
-            <header class="header-desktop">
-                <div class="section__content section__content--p30">
-                    <div class="container-fluid">
-                        <div class="header-wrap">
-                            <div class="header-button">
-                                <div class="noti-wrap">
-                                </div>
-                                <div class="account-wrap">
-                                    <div class="account-item clearfix js-item-menu" style="float:right">
-                                        <div class="image">
-                                            <img src="images/icon/avatar-01.jpg" alt="John Doe" />
-                                        </div>
-                                        <div class="content">
-                                            <a class="js-acc-btn" href="#"><?php echo $username?></a>
-                                        </div>
-                                        <div class="account-dropdown js-dropdown">
-                                            <div class="info clearfix">
-                                                <div class="image">
-                                                    <a href="#">
-                                                        <img src="images/icon/avatar-01.jpg" alt="John Doe" />
-                                                    </a>
-                                                </div>
-                                                <div class="content">
-                                                    <h5 class="name">
-                                                        <a href="#"><?php echo $adminname?></a>
-                                                    </h5>
-                                                    <span class="email"><?php echo $adminemail?></span>
-                                                </div>
-                                            </div>
-                                            <div class="account-dropdown__body">
-                                                <div class="account-dropdown__item">
-                                                    <a href="Admin_Account.php">
-                                                        <i class="zmdi zmdi-account"></i>Account</a>
-                                                </div>
-                                            </div>
-                                            <div class="account-dropdown__footer">
-                                                <a href="AdminLogout.php">
-                                                    <i class="zmdi zmdi-power"></i>Logout</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </header>
-            <!-- END HEADER DESKTOP-->
             
             <!-- MAIN CONTENT-->
             <div class="main-content">
@@ -222,10 +39,15 @@
                                                     <select name="subject_select" id="subject_select" class="form-control" value="">
                                                         <option value="0">Please select</option>
                                                         <option value="Toán">Toán</option>
-                                                        <option value="Xác suất thống kê">Xác suất thống kê</option>
-                                                        <option value="Ngữ Văn">Ngữ Văn</option>
                                                         <option value="Vật lý">Vật lý</option>
                                                         <option value="Hóa học">Hóa học</option>
+                                                        <option value="Ngữ Văn">Ngữ Văn</option>
+                                                        <option value="Sinh học">Sinh học</option>
+                                                        <option value="Sử">Sử</option>
+                                                        <option value="Địa lý">Địa lý</option>
+                                                        <option value="Công nghệ">Công nghệ</option>
+                                                        <option value="Giáo dục công dân">Giáo dục công dân</option>
+                                                        <option value="Tin học">Tin học</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -236,7 +58,7 @@
                                                     <label for="DOB-input" class=" form-control-label">DOB</label>
                                                 </div>
                                                 <div class="col-12 col-md-9">
-                                                    <input type="text" id="DOB_INPUT" name="DOB_INPUT" placeholder="yyyy/mm/dd" class="form-control" value="">
+                                                    <input type="date" id="DOB_INPUT" name="DOB_INPUT" placeholder="yyyy/mm/dd" class="form-control" value="">
                                                     <small class="help-block form-text">Please enter your Date Of Birth</small>
                                                 </div>
                                             </div>
@@ -290,15 +112,6 @@
                                             </div>
                                             <div class="row form-group">
                                                 <div class="col col-md-3">
-                                                    <label for="password-input" class=" form-control-label">Password</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <input type="password" id="password-input" name="password-input" placeholder="123456" class="form-control">
-                                                    <small class="help-block form-text">Please enter a complex password</small>
-                                                </div>
-                                            </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
                                                     <label for="Address-input" class=" form-control-label">Address Input</label>
                                                 </div>
                                                 <div class="col-12 col-md-9">
@@ -315,29 +128,9 @@
                                                     <small class="help-block form-text">Please enter your Religion</small>
                                                 </div>
                                             </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="textarea-input" class=" form-control-label">Textarea</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <textarea name="textarea-input" id="textarea-input" rows="9" placeholder="Content..." class="form-control"></textarea>
-                                                </div>
-                                            </div>
- 
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="file-input" class=" form-control-label">Teacher Image</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <input type="file" id="file-input" name="file-input" class="form-control-file">
-                                                </div>
-                                            </div>
                                             <div class="card-footer">
                                                 <button type="submit" class="btn btn-primary btn-sm">
-                                                    Update
-                                                </button>
-                                                <button type="reset" class="btn btn-danger btn-sm">
-                                                    Reset
+                                                    Add
                                                 </button>
                                             </div>
                                         </form>

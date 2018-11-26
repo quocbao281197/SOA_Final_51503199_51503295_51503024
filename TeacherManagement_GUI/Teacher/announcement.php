@@ -33,7 +33,7 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title" style="text-align:center; color:red">Announcement</h4>
+                                <h4 class="title" style="text-align:center; color:purple;font-size:2em">Announcement</h4>
                             </div>
                             <div class="content">
                                 <?php

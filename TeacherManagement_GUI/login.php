@@ -93,7 +93,8 @@
 			curl_setopt($ch, CURLOPT_POST, 1);
 			curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded')); // In Java: @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 
-			$data = array('username'=>$_POST['username'],'password'=>$_POST['password']);
+			//$data = array('username'=>$_POST['username'],'password'=>$_POST['password']);
+			$data = array('username'=>$_POST['username'],'password'=>MD5($_POST['username'].$_POST['password']));
 			curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
 
 			$output = curl_exec($ch);
@@ -104,12 +105,14 @@
 			{
 				session_start();
 				$_SESSION["username"]          = $_POST['username']; 
+				$_SESSION["password"]          = $_POST['password']; 
 				header("Location: Admin/Admin_Account.php");
 			}
 			else if($output == "0")
 			{
 				session_start();
-				$_SESSION["username"]          = $_POST['username']; 
+				$_SESSION["username"]          = $_POST['username'];
+				$_SESSION["password"]          = $_POST['password']; 
 				header("Location: Teacher/user.php");
 				//header("Location: teacher.html");
 			}

@@ -375,9 +375,6 @@
                                                 <button type="submit" class="btn btn-primary btn-sm">
                                                     Update
                                                 </button>
-                                                <button type="reset" class="btn btn-danger btn-sm" onclick="<?php echo("<meta http-equiv='refresh' content='3'>");?>">
-                                                    Reset
-                                                </button>
                                             </div>
                                             <div id="alert-addSuccess" class="alert alert-success" style="display: none ;text-allign:center" >
                                                 <strong> Update Private Information Success!</strong>

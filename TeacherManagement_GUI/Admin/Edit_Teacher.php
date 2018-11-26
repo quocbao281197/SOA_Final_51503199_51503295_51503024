@@ -160,15 +160,7 @@
                                                     <small class="help-block form-text">Please enter your email</small>
                                                 </div>
                                             </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="password-input" class=" form-control-label">Password</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <input type="password" id="password-input" name="password-input" placeholder="Password" class="form-control">
-                                                    <small class="help-block form-text">Please enter a complex password</small>
-                                                </div>
-                                            </div>
+
                                             <div class="row form-group">
                                                 <div class="col col-md-3">
                                                     <label for="Address-input" class=" form-control-label">Address Input</label>
@@ -187,30 +179,14 @@
                                                     <small class="help-block form-text">Please enter your Religion</small>
                                                 </div>
                                             </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="textarea-input" class=" form-control-label">Textarea</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <textarea name="textarea-input" id="textarea-input" rows="9" placeholder="Content..." class="form-control"></textarea>
-                                                </div>
-                                            </div>
+
  
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="file-input" class=" form-control-label">Teacher Image</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <input type="file" id="file-input" name="file-input" class="form-control-file">
-                                                </div>
-                                            </div>
+
                                             <div class="card-footer">
                                                 <button type="submit" class="btn btn-primary btn-sm">
                                                     Update
                                                 </button>
-                                                <button type="reset" class="btn btn-danger btn-sm">
-                                                    Reset
-                                                </button>
+
                                             </div>
                                             <div id="alert-addSuccess" class="alert alert-success" style="display: none ;text-allign:center" >
                                                 <strong> Update Teacher Information Success!</strong>

@@ -32,13 +32,13 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="header" style="border-bottom: 3px solid #F8F8F8;margin:auto; padding-bottom: 7px;">
-                                <h4 class="title" style="text-align:center; color:purple">Salary Table</h4>
+                                <h4 class="title" style="text-align:center; color:purple;font-size:2em">Salary Table</h4>
                             </div>
                             <div class="content">
                                 <div class = "row">
-                                    <div class = "col-md-4" style="margin:auto; padding-bottom: 5px;">Month</div>
-                                    <div class = "col-md-4" style="margin:auto; padding-bottom: 5px;">Year</div>
-                                    <div class = "col-md-4" style="margin:auto; padding-bottom: 5px;">Salary</div>
+                                    <div class = "col-md-4" style="margin:auto; padding-bottom: 5px;color:#8965CC;font-size:1.5em">Month</div>
+                                    <div class = "col-md-4" style="margin:auto; padding-bottom: 5px;color:#8965CC;font-size:1.5em">Year</div>
+                                    <div class = "col-md-4" style="margin:auto; padding-bottom: 5px;color:#8965CC;font-size:1.5em">Salary</div>
                                 </div>
                                 <hr>
                                 <?php

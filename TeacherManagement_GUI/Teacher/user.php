@@ -70,7 +70,7 @@
 										<div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Date Of Birth</label>
-                                                <input type="text" class="form-control" name="DOB_INPUT" placeholder="dd/mm/yyyy" value="<?php echo substr($DOB, 0, 10)?>">
+                                                <input type="date" class="form-control" name="DOB_INPUT" placeholder="dd/mm/yyyy" value="<?php echo substr($DOB, 0, 10)?>">
                                             </div>
                                         </div>
                                     </div>
@@ -79,7 +79,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Identify Card Number</label>
-                                                <input type="text" class="form-control" name = "IDENTIFY_CARD_NUMBER_INPUT" placeholder="xxxxxxxxxx" value="<?php echo $identifycardnumber?>">
+                                                <input type="text" class="form-control" readonly name = "IDENTIFY_CARD_NUMBER_INPUT" placeholder="xxxxxxxxxx" value="<?php echo $identifycardnumber?>">
                                             </div>
                                         </div>
 										
@@ -131,8 +131,8 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                <label>About Me</label>
-                                                <textarea rows="5" class="form-control" placeholder="Here can be your description" value="Mike">I wanna Cum</textarea>
+                                                <label>PASSWORD</label>
+                                                <input type="text" class="form-control" name = "PASSWORD_INPUT" placeholder="Home Address" value="<?php echo $_SESSION["password"]?>">
                                             </div>
                                         </div>
                                     </div>
@@ -145,38 +145,6 @@
                                 </div>
                             </div>
                             <?php
-                                // if(isset($_POST['NAME_INPUT'])  && isset($_POST['DOB_INPUT']) 
-                                //                                 && isset($_POST['IDENTIFY_CARD_NUMBER_INPUT']) 
-                                //                                 && isset($_POST['COUNTRY_INPUT']) 
-                                //                                 && isset($_POST['GENDER_INPUT']) 
-                                //                                 && isset($_POST['PHONE_NUMBER_INPUT']) 
-                                //                                 && isset($_POST['EMAIL_INPUT']) 
-                                //                                 && isset($_POST['ADDRESS_INPUT']) 
-                                //                                 && isset($_POST['RELIGION_INPUT'])
-                                //                                 && isset ($_POST['SUBJECT_INPUT']))
-                                // {    
-                                //     $username_input              = $_POST['NAME_INPUT'];
-                                //     $DOB_input                   = $_POST['DOB_INPUT'];
-                                //     $GENDER_input                = $_POST['GENDER_INPUT'];                
-                                //     // Update Information
-                                //     $ch = curl_init();
-                                //     curl_setopt( $ch, CURLOPT_ENCODING, "UTF-8" );
-                                //     curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/Teacher_Management_Final/rest/Teacher/TeacherManagement/UpdatePersonalInfomation/");
-                                //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                                //     curl_setopt($ch, CURLOPT_POST, 1);
-                                //     curl_setopt($ch, CURLOPT_HTTPHEADER , array(
-                                //         'Content-Type: application/x-www-form-urlencoded; charset=utf-8',
-                                //     ));
-                                //     //curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded; charset=utf-8')); // In Java: @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-                                //     $data = array('ID'=>$_SESSION['username'], 'TEACHERNAME' => $username_input
-                                //                     , 'DOB' => $DOB_input
-                                //                     , 'GENDER' => $GENDER_input );
-                                //     //$data = array();
-                                //     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-                                //     $output = curl_exec($ch);
-                                //     $info = curl_getinfo($ch);
-                                //     curl_close($ch);
-                                // }
                                 if(isset($_POST['NAME_INPUT'])  && isset($_POST['DOB_INPUT']) 
                                                                 && isset($_POST['IDENTIFY_CARD_NUMBER_INPUT']) 
                                                                 && isset($_POST['COUNTRY_INPUT']) 
@@ -185,7 +153,8 @@
                                                                 && isset($_POST['EMAIL_INPUT']) 
                                                                 && isset($_POST['ADDRESS_INPUT']) 
                                                                 && isset($_POST['RELIGION_INPUT'])
-                                                                && isset($_POST['SUBJECT_INPUT'])){
+                                                                && isset($_POST['SUBJECT_INPUT'])
+                                                                && isset($_POST['PASSWORD_INPUT'])){
                                     $ch = curl_init();
                                     curl_setopt( $ch, CURLOPT_ENCODING, "UTF-8" );
                                     curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/Teacher_Management_Final/rest/Teacher/UpdatePersonalInfomation/");
@@ -201,8 +170,8 @@
                                                     , 'COUNTRY' => $_POST['COUNTRY_INPUT']
                                                     , 'EMAIL' => $_POST['EMAIL_INPUT']
                                                     , 'ADDRESS' => $_POST['ADDRESS_INPUT']
-                                                    , 'RELIGION' => $_POST['RELIGION_INPUT']);
-                                                    //, @FormParam("PASSWORD") String PASSWORD);
+                                                    , 'RELIGION' => $_POST['RELIGION_INPUT']
+                                                    , 'PASSWORD' => $_POST['PASSWORD_INPUT']);
                                     //$data = array();
                                     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
                                     $output = curl_exec($ch);
@@ -214,6 +183,8 @@
                                                 document.getElementById('alert-addSuccess').style.display = 'block';
                                             </script>
                                         <?php
+                                            unset($_SESSION["password"]);
+                                            $_SESSION["password"] = $_POST['PASSWORD_INPUT'];
                                             echo("<meta http-equiv='refresh' content='3'>");
                                     }
                                 }
@@ -262,7 +233,22 @@
 
 
 </body>
+<script type="text/javascript">
+    	$(document).ready(function(){
 
+        	demo.initChartist();
+
+        	$.notify({
+            	icon: 'pe-7s-gift',
+            	message: "Welcome to <b>Teacher Management System."
+
+            },{
+                type: 'info',
+                timer: 4000
+            });
+
+    	});
+	</script>
     <!--   Core JS Files   -->
     <script src="assets/js/jquery.3.2.1.min.js" type="text/javascript"></script>
 	<script src="assets/js/bootstrap.min.js" type="text/javascript"></script>

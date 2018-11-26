@@ -2,15 +2,13 @@
 <title>Schedule</title>
 </head>
 <?php
+    require_once('headers/header.php');
+?>
+<?php
     if(!isset($_SESSION["username"])){
         header("Location: ../login.php");
     }
 ?>
-<?php
-    require_once('headers/header.php');
-?>
-
-
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
