@@ -44,6 +44,7 @@ public class TeacherManagementServices {
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
+			System.out.println("Received: " + password);
 			System.out.println("Begin Login Function");
 			Class.forName("com.mysql.jdbc.Driver");
 			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase";
@@ -313,8 +314,8 @@ public class TeacherManagementServices {
 			, @FormParam("COUNTRY") String COUNTRY
 			, @FormParam("EMAIL") String EMAIL
 			, @FormParam("ADDRESS") String ADDRESS
-			, @FormParam("RELIGION") String RELIGION)
-			//, @FormParam("PASSWORD") String PASSWORD)   
+			, @FormParam("RELIGION") String RELIGION
+			, @FormParam("PASSWORD") String PASSWORD)   
 	{
 		Connection conn = null;
 		Statement stmt = null;
@@ -330,7 +331,11 @@ public class TeacherManagementServices {
 			String updateStatement = "UPDATE `teacher` SET `NAME`='"+TEACHERNAME+"',`DOB`='"+DOB+"', `GENDER`='"+GENDER+"',`PHONENUMBER`='"+PHONENUMBER+"',`COUNTRY`='"+COUNTRY+"',`EMAIL`='"+EMAIL+"',`ADDRESS`='"+ADDRESS+"',`RELIGION`='"+RELIGION+"' WHERE ID = '"+ID+"'  ";
 			//System.out.println("Update statement: " + updateStatement);
 			stmt.executeUpdate(updateStatement);
+			
+			String updateAccount = "UPDATE `account` SET `PASSWORD`=MD5('" + ID + PASSWORD +"') WHERE `USERNAME`= '" + ID +"'";
 			//rs = stmt.executeQuery("UPDATE `account` SET PASSWORD`='"+PASSWORD+"' WHERE USERNAME = '"+ID+"'");
+			stmt.executeUpdate(updateAccount);
+			System.out.println("state: " + updateAccount);
 			System.out.println("Update Success");
 			System.out.println("***********************************");
 		} catch (Exception e) {
@@ -342,6 +347,7 @@ public class TeacherManagementServices {
 		}
 		return true;
 	}
+	
 	
 	/*SearchTeacher*/
 	
@@ -493,7 +499,10 @@ public class TeacherManagementServices {
 			
 
 			// insert account
-			stmt.executeUpdate("INSERT INTO `account` (`USERNAME`, `PASSWORD`, `DATECREATED`, `ROLE`, `ACTIVE`) VALUES ('"+ID+"','123456','"+currentTime+"',b'0', b'1')");
+			//stmt.executeUpdate("INSERT INTO `account` (`USERNAME`, `PASSWORD`, `DATECREATED`, `ROLE`, `ACTIVE`) VALUES ('"+ID+"','123456','"+currentTime+"',b'0', b'1')");
+			String insertAccount = "INSERT INTO `account` (`USERNAME`, `PASSWORD`, `DATECREATED`, `ROLE`, `ACTIVE`) VALUES ('"+ID+"',MD5('"+ ID + "123456" + "'),'"+currentTime+"',b'0', b'1')";
+			stmt.executeUpdate(insertAccount);
+			System.out.println("Query: " + insertAccount);
 			
 			stmt.executeUpdate("INSERT INTO `teacher` (`ID`, `NAME`, `DOB`, `IDENTIFYCARDNUMBER`, `GENDER`, `PHONENUMBER`, `COUNTRY`, `EMAIL`, `ADDRESS`, `RELIGION`, `STATUS`, `SUBJECT_NAME`) VALUES\r\n" + 
 					"('"+ID+"', '"+TEACHERNAME+"', '"+DOB+"', '"+IDENTIFYCARDNUMBER+"', '"+GENDER+"', '"+PHONENUMBER+"', '"+COUNTRY+"', '"+EMAIL+"', '"+ADDRESS+"', '"+RELIGION+"', b'1', '"+SUBJECT_NAME+"')");
@@ -761,7 +770,7 @@ public class TeacherManagementServices {
 	
 	/*Teacher - GetAllUserInformation*/
 	@POST
-	@Path("TeacherManagement/GetListTeacher/")  
+	@Path("Admin/GetListTeacher/")  
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)    
 	@Produces(MediaType.APPLICATION_JSON)
 	public ArrayList<Teacher> GetListTeacher() 
@@ -1448,7 +1457,91 @@ public class TeacherManagementServices {
 			try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
 			try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
 		}
-		return ArrayTeacher ;
+		return ArrayTeacher;
+	}
+		
+		@POST
+		@Path("getYear/")  
+		@Consumes(MediaType.APPLICATION_FORM_URLENCODED)    
+		@Produces(MediaType.APPLICATION_JSON)
+		public ArrayList<Integer> getYear() 
+		{
+			Connection conn = null;
+			Statement stmt = null;
+			ResultSet rs = null;
+			ArrayList<Integer> ArrayYear = new ArrayList<Integer>();
+			try {
+				System.out.println("***********************************");
+				Class.forName("com.mysql.jdbc.Driver");
+				String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+				String connectionUser = "root";
+				String connectionPassword = "";
+				conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+				stmt = conn.createStatement();
+				String query = "SELECT DISTINCT YEAR FROM `salary` ORDER BY `YEAR` DESC";
+				rs = stmt.executeQuery(query);
+				System.out.println("Begin Filter List Year:");
+				
+				while (rs.next())
+				{
+					 Integer year = rs.getInt("YEAR");
+					 ArrayYear.add(year);
+				}
+				System.out.println("***********************************");
+				return ArrayYear;
+					
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+				try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+				try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+			}
+			return ArrayYear;
 	}
 	
+	@POST
+	@Path("Admin/filterMonthYear/")  
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)    
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<Salary> getMonthTotal(@FormParam("id") String ID,@FormParam("Year") int Year) 
+	{
+			Connection conn = null;
+			Statement stmt = null;
+			ResultSet rs = null;
+			ArrayList<Salary> ArraySalary = new ArrayList<Salary>();
+			try {
+				System.out.println("***********************************");
+				Class.forName("com.mysql.jdbc.Driver");
+				String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+				String connectionUser = "root";
+				String connectionPassword = "";
+				conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+				stmt = conn.createStatement();
+				String query = "SELECT MONTH, TOTAL FROM `salary` WHERE TEACHER_ID = '" + ID + "' AND YEAR = " + Year;
+				rs = stmt.executeQuery(query);
+				System.out.println("Begin GET List MONTH YEAR:");
+				
+				while (rs.next())
+				{
+					Salary salary = new Salary();
+					String month = rs.getString("MONTH");
+					double total = rs.getDouble("TOTAL");
+					
+					salary.setMonth(month);
+					salary.setTotal(total);
+					ArraySalary.add(salary);
+				}
+				System.out.println("***********************************");
+				return ArraySalary;
+					
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+				try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+				try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+			}
+			return ArraySalary;
+	}
 }
