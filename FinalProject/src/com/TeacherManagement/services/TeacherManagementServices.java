@@ -1,5 +1,6 @@
 package com.TeacherManagement.services;
 
+import java.io.File;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -15,12 +16,15 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 import javax.json.bind.annotation.JsonbDateFormat;
 import javax.swing.text.DateFormatter;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
@@ -47,10 +51,13 @@ public class TeacherManagementServices {
 			System.out.println("Received: " + password);
 			System.out.println("Begin Login Function");
 			Class.forName("com.mysql.jdbc.Driver");
-			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase";
-			String connectionUser = "root";
-			String connectionPassword = "";
-			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+			//String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+			//String connectuser = "soa";
+			//String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 			stmt = conn.createStatement();
 
 			String value = "0";
@@ -113,10 +120,13 @@ public class TeacherManagementServices {
 		ResultSet rs = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase";
-			String connectionUser = "root";
-			String connectionPassword = "";
-			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 			stmt = conn.createStatement();
 			String query = "SELECT * FROM account WHERE USERNAME = '" + username + "' AND PASSWORD = '" + password + "' AND ACTIVE = '1'";
 			//rs = stmt.executeQuery("SELECT * FROM account WHERE ACTIVE = '1'");
@@ -155,10 +165,13 @@ public class TeacherManagementServices {
 			System.out.println("***********************************");
 			System.out.println("Begin Logging Function");
 			Class.forName("com.mysql.jdbc.Driver");
-			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase";
-			String connectionUser = "root";
-			String connectionPassword = "";
-			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 			stmt = conn.createStatement();
 			
 			String date = getCurrentDate1();
@@ -213,10 +226,13 @@ public class TeacherManagementServices {
 			System.out.println("***********************************");
 			System.out.println("Begin Logout Function");
 			Class.forName("com.mysql.jdbc.Driver");
-			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase";
-			String connectionUser = "root";
-			String connectionPassword = "";
-			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 			stmt = conn.createStatement();
 
 			String time = getCurrentTime1();			
@@ -249,10 +265,13 @@ public class TeacherManagementServices {
 			System.out.println("***********************************");
 			System.out.println("Begin Teacher View Announcement Function");
 			Class.forName("com.mysql.jdbc.Driver");
-			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
-			String connectionUser = "root";
-			String connectionPassword = "";
-			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("SELECT * FROM `announcement` WHERE  `TITLE` = '" + TITLE + "'");
 
@@ -309,6 +328,7 @@ public class TeacherManagementServices {
 	public boolean UpdatePersonalInfomation(@FormParam("ID") String ID
 			, @FormParam("TEACHERNAME") String TEACHERNAME
 			, @FormParam("DOB") String DOB
+			, @FormParam("SUBJECT_NAME") String SUBJECT_NAME
 			, @FormParam("GENDER") String GENDER
 			, @FormParam("PHONENUMBER") String PHONENUMBER
 			, @FormParam("COUNTRY") String COUNTRY
@@ -317,19 +337,23 @@ public class TeacherManagementServices {
 			, @FormParam("RELIGION") String RELIGION
 			, @FormParam("PASSWORD") String PASSWORD)   
 	{
+		System.out.println("Subject: " + SUBJECT_NAME);
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
 			System.out.println("***********************************");
 			Class.forName("com.mysql.jdbc.Driver");
-			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
-			String connectionUser = "root";
-			String connectionPassword = "";
-			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 			stmt = conn.createStatement();
-			String updateStatement = "UPDATE `teacher` SET `NAME`='"+TEACHERNAME+"',`DOB`='"+DOB+"', `GENDER`='"+GENDER+"',`PHONENUMBER`='"+PHONENUMBER+"',`COUNTRY`='"+COUNTRY+"',`EMAIL`='"+EMAIL+"',`ADDRESS`='"+ADDRESS+"',`RELIGION`='"+RELIGION+"' WHERE ID = '"+ID+"'  ";
-			//System.out.println("Update statement: " + updateStatement);
+			String updateStatement = "UPDATE `teacher` SET `NAME`='"+TEACHERNAME+"',`DOB`='"+DOB+"', `SUBJECT_NAME`='"+ SUBJECT_NAME + "', `GENDER`='"+GENDER+"',`PHONENUMBER`='"+PHONENUMBER+"',`COUNTRY`='"+COUNTRY+"',`EMAIL`='"+EMAIL+"',`ADDRESS`='"+ADDRESS+"',`RELIGION`='"+RELIGION+"' WHERE ID = '"+ID+"'  ";
+			System.out.println("Update statement: " + updateStatement);
 			stmt.executeUpdate(updateStatement);
 			
 			String updateAccount = "UPDATE `account` SET `PASSWORD`=MD5('" + ID + PASSWORD +"') WHERE `USERNAME`= '" + ID +"'";
@@ -365,10 +389,13 @@ public class TeacherManagementServices {
 		try {
 			System.out.println("***********************************");
 			Class.forName("com.mysql.jdbc.Driver");
-			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
-			String connectionUser = "root";
-			String connectionPassword = "";
-			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("SELECT * FROM `salary` WHERE `TEACHER_ID`= '"+ID+"'");
 			
@@ -412,10 +439,10 @@ public class TeacherManagementServices {
 //		ArrayList<Schedule> ArraySchedule = new ArrayList<Schedule>();
 //		try {
 //			Class.forName("com.mysql.jdbc.Driver");
-//			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
-//			String connectionUser = "root";
-//			String connectionPassword = "";
-//			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+//			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 //			stmt = conn.createStatement();
 //			rs = stmt.executeQuery("SELECT * FROM `schedule` WHERE `IDTEACHER`= '"+ID+"'");
 //			Schedule schedule = new Schedule();
@@ -472,10 +499,13 @@ public class TeacherManagementServices {
 		try {
 			System.out.println("***********************************");
 			Class.forName("com.mysql.jdbc.Driver");
-			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
-			String connectionUser = "root";
-			String connectionPassword = "";
-			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 			
 			String ID = Auto_Increment_ID();
 			
@@ -534,10 +564,13 @@ public class TeacherManagementServices {
 			System.out.println("***********************************");
 			System.out.println("BEGIN UPDATE INFORMATION!");
 			Class.forName("com.mysql.jdbc.Driver");
-			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
-			String connectionUser = "root";
-			String connectionPassword = "";
-			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 			stmt = conn.createStatement();
 			// Update teacher _ Admin ( khong update ID)
 
@@ -571,10 +604,13 @@ public class TeacherManagementServices {
 			System.out.println("***********************************");
 			System.out.println("Begin Delete Function");
 			Class.forName("com.mysql.jdbc.Driver");
-			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
-			String connectionUser = "root";
-			String connectionPassword = "";
-			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 			stmt = conn.createStatement();
 			// delete teacher
 			stmt.executeUpdate("UPDATE `teacher` SET `STATUS`= 0 WHERE ID ='"+ID+"'");
@@ -609,14 +645,18 @@ public class TeacherManagementServices {
 			System.out.println("***********************************");
 			System.out.println("BEGIN UPDATE INFORMATION BY ADMIN!");
 			Class.forName("com.mysql.jdbc.Driver");
-			//String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase";
-			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
-			String connectionUser = "root";
-			String connectionPassword = "";
-			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+			//String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 		
 			stmt = conn.createStatement();
 			// Update teacher _ Admin ( khong update ID)
+			
 			stmt.executeUpdate("UPDATE `teacher` SET `NAME`='"+TEACHERNAME+"',`DOB`='"+DOB+"',`IDENTIFYCARDNUMBER`='"+IDENTIFYCARDNUMBER+"',`GENDER`='"+GENDER+"',`PHONENUMBER`='"+PHONENUMBER+"',`COUNTRY`='"+COUNTRY+"',`EMAIL`='"+EMAIL+"',`ADDRESS`='"+ADDRESS+"',`RELIGION`='"+RELIGION+"',`STATUS`="+STATUS+",`SUBJECT_NAME`='"+SUBJECT_NAME+"' WHERE ID = '"+ID+"'");
 			
 			String sqlUpdateAccount = "UPDATE `account` SET `ACTIVE`= " + STATUS + " WHERE `USERNAME`= '" + ID + "'";
@@ -648,10 +688,13 @@ public class TeacherManagementServices {
 		try {
 			System.out.println("***********************************");
 			Class.forName("com.mysql.jdbc.Driver");
-			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
-			String connectionUser = "root";
-			String connectionPassword = "";
-			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("SELECT * FROM `teacher` WHERE ID = '"+ID+"'"); 
 			Teacher teacher = new Teacher();
@@ -676,6 +719,8 @@ public class TeacherManagementServices {
 				 Boolean status  =           rs.getBoolean("STATUS");
 				 String subjectname =	     rs.getString("SUBJECT_NAME");
 				 
+				 System.out.println("Subject : " +subjectname);
+				 System.out.println("Size: " + subjectname.length());
 				 teacher.setId(id);
 				 teacher.setName(name);
 				 teacher.setDOB(DOB);
@@ -716,10 +761,13 @@ public class TeacherManagementServices {
 			System.out.println("***********************************");
 			System.out.println("Begin View Admin Information");
 			Class.forName("com.mysql.jdbc.Driver");
-			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
-			String connectionUser = "root";
-			String connectionPassword = "";
-			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("SELECT * FROM `admin` WHERE ID = '"+ID+"'"); 
 			Admin admin = new Admin();
@@ -782,10 +830,13 @@ public class TeacherManagementServices {
 		try {
 			System.out.println("***********************************");
 			Class.forName("com.mysql.jdbc.Driver");
-			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
-			String connectionUser = "root";
-			String connectionPassword = "";
-			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("SELECT * FROM `teacher`");
 			System.out.println("Begin get List Teacher:");
@@ -862,10 +913,13 @@ public class TeacherManagementServices {
 			System.out.println("***********************************");
 			System.out.println("Begin Upload Announcement Function");
 			Class.forName("com.mysql.jdbc.Driver");
-			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
-			String connectionUser = "root";
-			String connectionPassword = "";
-			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 			stmt = conn.createStatement();
 			
 			String date = getCurrentDate1();
@@ -902,10 +956,13 @@ public class TeacherManagementServices {
 		try {
 			System.out.println("***********************************");
 			Class.forName("com.mysql.jdbc.Driver");
-			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
-			String connectionUser = "root";
-			String connectionPassword = "";
-			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("SELECT DISTINCT `TITLE` ,`DATEPOST` FROM `announcement` ORDER BY `DATEPOST`DESC ");
 			
@@ -950,10 +1007,13 @@ public class TeacherManagementServices {
 		ResultSet rs = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase";
-			String connectionUser = "root";
-			String connectionPassword = "";
-			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 			stmt = conn.createStatement();
 			int count = 0;
 			rs = stmt.executeQuery("SELECT * FROM teacher");
@@ -991,10 +1051,13 @@ public class TeacherManagementServices {
 		ResultSet rs = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase";
-			String connectionUser = "root";
-			String connectionPassword = "";
-			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 			stmt = conn.createStatement();
 			int count = 0;
 			rs = stmt.executeQuery("SELECT * FROM announcement");
@@ -1036,10 +1099,10 @@ public class TeacherManagementServices {
 //		ResultSet rs = null;
 //		try {
 //			Class.forName("com.mysql.jdbc.Driver");
-//			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase";
-//			String connectionUser = "root";
-//			String connectionPassword = "";
-//			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+//			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 //			stmt = conn.createStatement();
 //			
 //			// java.util.Date         //Duy : can check lai
@@ -1075,10 +1138,10 @@ public class TeacherManagementServices {
 //		ResultSet rs = null;
 //		try {
 //			Class.forName("com.mysql.jdbc.Driver");
-//			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase";
-//			String connectionUser = "root";
-//			String connectionPassword = "";
-//			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+//			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 //			stmt = conn.createStatement();
 //		
 //			Date date = new Date();
@@ -1119,10 +1182,13 @@ public class TeacherManagementServices {
 			System.out.println("***********************************");
 			System.out.println("Begin View Teaching Schedule");
 			Class.forName("com.mysql.jdbc.Driver");
-			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
-			String connectionUser = "root";
-			String connectionPassword = "";
-			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 			stmt = conn.createStatement();
 			//rs = stmt.executeQuery("SELECT DISTINCT `TITLE` ,`DATEPOST` FROM `announcement` ORDER BY `DATEPOST`DESC ");
 			String query = "SELECT * FROM `schedule` WHERE IDTEACHER = '" + teacherID +"' AND SEMESTER = '"+semester+"' AND YEAR = '"+year+"' AND DAY = " + day;
@@ -1227,10 +1293,13 @@ public class TeacherManagementServices {
 		ResultSet rs = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
-			String connectionUser = "root";
-			String connectionPassword = "";
-			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 			
 			String scheduleID = "SC" + TeacherID.substring(2);
 
@@ -1270,10 +1339,13 @@ public class TeacherManagementServices {
 			System.out.println("***********************************");
 			System.out.println("Begin Get List Salary Function");
 			Class.forName("com.mysql.jdbc.Driver");
-			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
-			String connectionUser = "root";
-			String connectionPassword = "";
-			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 			stmt = conn.createStatement();
 			//rs = stmt.executeQuery("SELECT DISTINCT `TITLE` ,`DATEPOST` FROM `announcement` ORDER BY `DATEPOST`DESC ");
 			String query = "SELECT * FROM `salary` ORDER BY `ID` ASC, `YEAR` DESC, `MONTH` DESC";
@@ -1327,10 +1399,13 @@ public class TeacherManagementServices {
 			System.out.println("***********************************");
 			System.out.println("Begin Add Salary Function");
 			Class.forName("com.mysql.jdbc.Driver");
-			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
-			String connectionUser = "root";
-			String connectionPassword = "";
-			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 			
 			String salaryID = "LB" + TeacherID.substring(2);
 			System.out.println("Schedule ID: " + salaryID);
@@ -1365,13 +1440,16 @@ public class TeacherManagementServices {
 		ArrayList<String> lstID = new ArrayList<String>();
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
-			String connectionUser = "root";
-			String connectionPassword = "";
-			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 			
 			stmt = conn.createStatement();
-			String querySelect = "SELECT ID FROM `TEACHER`";
+			String querySelect = "SELECT ID FROM `teacher` ORDER BY ID ASC";
 			rs = stmt.executeQuery(querySelect);
 			while (rs.next())
 			{
@@ -1402,10 +1480,13 @@ public class TeacherManagementServices {
 		try {
 			System.out.println("***********************************");
 			Class.forName("com.mysql.jdbc.Driver");
-			String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
-			String connectionUser = "root";
-			String connectionPassword = "";
-			conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery("SELECT * FROM `teacher` WHERE STATUS = " + Status);
 			System.out.println("Begin Filter List Teacher:");
@@ -1473,10 +1554,13 @@ public class TeacherManagementServices {
 			try {
 				System.out.println("***********************************");
 				Class.forName("com.mysql.jdbc.Driver");
-				String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
-				String connectionUser = "root";
-				String connectionPassword = "";
-				conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//				String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//				String connectuser = "soa";
+//				String connectpass = "12345678";
+				String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+				String connectuser = "root";
+				String connectpass = "";
+				conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 				stmt = conn.createStatement();
 				String query = "SELECT DISTINCT YEAR FROM `salary` ORDER BY `YEAR` DESC";
 				rs = stmt.executeQuery(query);
@@ -1513,10 +1597,13 @@ public class TeacherManagementServices {
 			try {
 				System.out.println("***********************************");
 				Class.forName("com.mysql.jdbc.Driver");
-				String connectionUrl = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
-				String connectionUser = "root";
-				String connectionPassword = "";
-				conn = DriverManager.getConnection(connectionUrl, connectionUser, connectionPassword);
+//				String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//				String connectuser = "soa";
+//				String connectpass = "12345678";
+				String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+				String connectuser = "root";
+				String connectpass = "";
+				conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
 				stmt = conn.createStatement();
 				String query = "SELECT MONTH, TOTAL FROM `salary` WHERE TEACHER_ID = '" + ID + "' AND YEAR = " + Year;
 				rs = stmt.executeQuery(query);
@@ -1543,5 +1630,260 @@ public class TeacherManagementServices {
 				try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
 			}
 			return ArraySalary;
+	}
+	
+	
+//	@POST
+//	@Path("Admin/readFile/")  
+//	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)    
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public ArrayList<Salary> readFileCSV(@FormParam("File") File filename)
+//	{
+//			Connection conn = null;
+//			Statement stmt = null;
+//			ResultSet rs = null;
+//			ArrayList<Salary> ArraySalary = new ArrayList<Salary>();
+//			try {
+//				System.out.println("***********************************");
+//				Class.forName("com.mysql.jdbc.Driver");
+////				String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+////				String connectuser = "soa";
+////				String connectpass = "12345678";
+//				String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+//				String connectuser = "root";
+//				String connectpass = "";
+//				conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
+//				stmt = conn.createStatement();
+//				String query = "SELECT MONTH, TOTAL FROM `salary` WHERE TEACHER_ID = '" + ID + "' AND YEAR = " + Year;
+//				rs = stmt.executeQuery(query);
+//				System.out.println("Begin GET List MONTH YEAR:");
+//				
+//				while (rs.next())
+//				{
+//					Salary salary = new Salary();
+//					String month = rs.getString("MONTH");
+//					double total = rs.getDouble("TOTAL");
+//					
+//					salary.setMonth(month);
+//					salary.setTotal(total);
+//					ArraySalary.add(salary);
+//				}
+//				System.out.println("***********************************");
+//				return ArraySalary;
+//					
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			} finally {
+//				try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+//				try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+//				try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+//			}
+//			return ArraySalary;
+//	}
+	
+//	@POST
+//	@Path("Admin/ImportCSV/")
+//	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public boolean ImportCSV(@FormParam("TEACHERNAME") String TEACHERNAME, @FormParam("DOB") String DOB, @FormParam("IDENTIFYCARDNUMBER") String IDENTIFYCARDNUMBER,
+//			@FormParam("GENDER") String GENDER, @FormParam("PHONENUMBER") String PHONENUMBER, @FormParam("COUNTRY") String COUNTRY,
+//			@FormParam("EMAIL") String EMAIL, @FormParam("ADDRESS") String ADDRESS, @FormParam("RELIGION") String RELIGION,
+//			@FormParam("SUBJECT_NAME") String SUBJECT_NAME)
+//	{
+//		System.out.println("Begin Import Teacher Function");
+//		Connection conn = null;
+//		Statement stmt = null;
+//		ResultSet rs = null;
+//		try {
+//			System.out.println("***********************************");
+//			Class.forName("com.mysql.jdbc.Driver");
+////			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+////			String connectuser = "soa";
+////			String connectpass = "12345678";
+//			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "root";
+//			String connectpass = "";
+//			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
+//			
+//			String ID = Auto_Increment_ID();
+//			
+//			java.util.Date dt = new java.util.Date();
+//			java.text.SimpleDateFormat sdf = 
+//			     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//			String currentTime = sdf.format(dt);
+//			
+//			System.out.println("TEACHERNAME: " + TEACHERNAME);
+//			System.out.println("DOB: " + DOB);
+//			System.out.println("IDENTIFYCARDNUMBER: " + IDENTIFYCARDNUMBER);
+//			System.out.println("GENDER: " + GENDER);
+//			System.out.println("PHONENUMBER: " + PHONENUMBER);
+//			System.out.println("COUNTRY: " + COUNTRY);
+//			System.out.println("EMAIL: " + EMAIL);
+//			System.out.println("ADDRESS: " + ADDRESS);
+//			System.out.println("RELIGION: " + RELIGION);
+//			System.out.println(("ID: " + ID));
+////			
+//			stmt = conn.createStatement();
+//			
+//			
+//			String insertTeacher = "INSERT INTO `teacher` (`ID`, `NAME`, `DOB`, `IDENTIFYCARDNUMBER`, `GENDER`, `PHONENUMBER`, `COUNTRY`, `EMAIL`, `ADDRESS`, `RELIGION`, `STATUS`, `SUBJECT_NAME`) VALUES\r\n" + 
+//					"('"+ID+"', '"+TEACHERNAME+"', '"+DOB+"', '"+IDENTIFYCARDNUMBER+"', '"+GENDER+"', '"+PHONENUMBER+"', '"+COUNTRY+"', '"+EMAIL+"', '"+ADDRESS+"', '"+RELIGION+"', b'1', '"+SUBJECT_NAME+"')";
+//			System.out.println("Query Teacher: " + insertTeacher);
+//			//stmt.executeUpdate("INSERT INTO `teacher` (`ID`, `NAME`, `DOB`, `IDENTIFYCARDNUMBER`, `GENDER`, `PHONENUMBER`, `COUNTRY`, `EMAIL`, `ADDRESS`, `RELIGION`, `STATUS`, `SUBJECT_NAME`) VALUES\r\n" + 
+//			//		"('"+ID+"', '"+TEACHERNAME+"', '"+DOB+"', '"+IDENTIFYCARDNUMBER+"', '"+GENDER+"', '"+PHONENUMBER+"', '"+COUNTRY+"', '"+EMAIL+"', '"+ADDRESS+"', '"+RELIGION+"', b'1', '"+SUBJECT_NAME+"')");
+//			//stmt.executeUpdate(insertTeacher);
+//			
+//			// insert account
+//			//stmt.executeUpdate("INSERT INTO `account` (`USERNAME`, `PASSWORD`, `DATECREATED`, `ROLE`, `ACTIVE`) VALUES ('"+ID+"','123456','"+currentTime+"',b'0', b'1')");
+//			String insertAccount = "INSERT INTO `account` (`USERNAME`, `PASSWORD`, `DATECREATED`, `ROLE`, `ACTIVE`) VALUES ('"+ID+"',MD5('"+ ID + "123456" + "'),'"+currentTime+"',b'0', b'1')";
+//			//stmt.executeUpdate(insertAccount);
+//			System.out.println("Query Account: " + insertAccount);
+//			
+//
+//			String scheduleID = "SC" + ID.substring(2);
+//
+//			//stmt.executeUpdate("INSERT INTO `schedule`(`ID`, `DAY`, `SHIFT`, `LOCATION`, `SEMESTER`, `YEAR`, `IDTEACHER`) VALUES ('"+ scheduleID +"',0,0,'0','0','0000','"+ ID + "')");
+//			
+//			System.out.println("***********************************");
+//			return true;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		} finally {
+//			//try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+//			try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+//			try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+//		}
+//		return false;
+//	}
+	@POST
+	@Path("Admin/ImportCSV/")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean ImportCSV(@FormParam("array") String arr)
+	{
+		System.out.println("Begin Import Teacher Function");
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			System.out.println("***********************************");
+			Class.forName("com.mysql.jdbc.Driver");
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
+			stmt = conn.createStatement();
+			// process data
+			String adjusted = arr.replaceAll("(?m)^[ \t]*\r?\n", "");
+			List<String> items = Arrays.asList(adjusted.split("\n"));
+			for(String s:items) {
+				System.out.println("1--------------");
+				List<String> data = Arrays.asList(s.split(","));
+				
+				String ID = Auto_Increment_ID();
+				
+				java.util.Date dt = new java.util.Date();
+				java.text.SimpleDateFormat sdf = 
+				     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String currentTime = sdf.format(dt);
+				
+				String TEACHERNAME = data.get(0);
+				String DOB = data.get(1);
+				String IDENTIFYCARDNUMBER = data.get(2);
+				String GENDER = data.get(3);
+				String PHONENUMBER = data.get(4);
+				String COUNTRY = data.get(5);
+				String EMAIL = data.get(6);
+				String ADDRESS = data.get(7);
+				String RELIGION = data.get(8);
+				String SUBJECT_NAME = data.get(9);
+						
+				// insert account
+				String insertAccount = "INSERT INTO `account` (`USERNAME`, `PASSWORD`, `DATECREATED`, `ROLE`, `ACTIVE`) VALUES ('"+ID+"',MD5('"+ ID + "123456" + "'),'"+currentTime+"',b'0', b'1')";
+				System.out.println("Query Account: " + insertAccount);
+				stmt.executeUpdate(insertAccount);
+				
+				// insert teacher
+				String insertTeacher = "INSERT INTO `teacher` (`ID`, `NAME`, `DOB`, `IDENTIFYCARDNUMBER`, `GENDER`, `PHONENUMBER`, `COUNTRY`, `EMAIL`, `ADDRESS`, `RELIGION`, `STATUS`, `SUBJECT_NAME`) VALUES\r\n" + 
+				"('"+ID+"', '"+TEACHERNAME+"', '"+DOB+"', '"+IDENTIFYCARDNUMBER+"', '"+GENDER+"', '"+PHONENUMBER+"', '"+COUNTRY+"', '"+EMAIL+"', '"+ADDRESS+"', '"+RELIGION+"', b'1', '"+SUBJECT_NAME+"')";
+				System.out.println("Query Teacher: " + insertTeacher);
+				stmt.executeUpdate(insertTeacher);
+
+				System.out.println("--------------------------");
+			}
+			System.out.println("***********************************");
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			//try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+			try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+			try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+		}
+		return false;
+	}
+	
+	@POST
+	@Path("Admin/ImportCSVSalary/")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
+	public boolean ImportCSVSalary(@FormParam("array") String arr)
+	{
+		System.out.println("Begin Import Salary Function");
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			System.out.println("***********************************");
+			Class.forName("com.mysql.jdbc.Driver");
+//			String connectURL = "jdbc:mysql://soaproject.cl9haf4nnyun.ap-southeast-1.rds.amazonaws.com:3306/teacher?useUnicode=true&characterEncoding=utf-8";
+//			String connectuser = "soa";
+//			String connectpass = "12345678";
+			String connectURL = "jdbc:mysql://localhost:3306/teacherdatabase?useUnicode=true&characterEncoding=utf-8";
+			String connectuser = "root";
+			String connectpass = "";
+			conn = DriverManager.getConnection(connectURL, connectuser, connectpass);
+			stmt = conn.createStatement();
+			// process data
+			String adjusted = arr.replaceAll("(?m)^[ \t]*\r?\n", "");
+			List<String> items = Arrays.asList(adjusted.split("\n"));
+			for(String s:items) {
+				System.out.println("1--------------");
+				List<String> data = Arrays.asList(s.split(","));
+				
+				String ID = Auto_Increment_ID();
+				
+				java.util.Date dt = new java.util.Date();
+				java.text.SimpleDateFormat sdf = 
+				     new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String currentTime = sdf.format(dt);
+				
+				String TeacherID = data.get(3).trim();
+				String salaryID = "LB" + TeacherID.substring(2);
+				String Month = data.get(0).trim();
+				String Year = data.get(1).trim();
+				String Total = data.get(2).trim();
+				stmt = conn.createStatement();
+				String queryInsert = "INSERT INTO `salary`(`ID`, `MONTH`, `YEAR`, `TOTAL`, `TEACHER_ID`) VALUES ('"+salaryID+"','"+Month+"',"+Year+","+Total+",'"+TeacherID+"')";
+				//stmt.executeUpdate("INSERT INTO `schedule`(`ID`, `DAY`, `SHIFT`, `LOCATION`, `SEMESTER`, `YEAR`, `IDTEACHER`) VALUES ('"+ scheduleID +"',"+ Day + ", +"+ Shift+ "0,+'"+ Location+ "','"+ Semester+",'"+ Year+ "','"+ TeacherID + "')");
+				System.out.println("query Insert: " + queryInsert);
+				stmt.executeUpdate(queryInsert);
+				System.out.println("Success Add Salary Function");
+
+				System.out.println("--------------------------");
+			}
+			System.out.println("***********************************");
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			//try { if (rs != null) rs.close(); } catch (SQLException e) { e.printStackTrace(); }
+			try { if (stmt != null) stmt.close(); } catch (SQLException e) { e.printStackTrace(); }
+			try { if (conn != null) conn.close(); } catch (SQLException e) { e.printStackTrace(); }
+		}
+		return false;
 	}
 }

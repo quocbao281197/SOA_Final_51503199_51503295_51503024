@@ -6,5 +6,5 @@
     $_SESSION = array();
     //clear session from disk
     session_destroy();
-    header('Location: login.php');
+    header('Location: http://localhost:8888/TeacherManagement/login.php');
 ?>

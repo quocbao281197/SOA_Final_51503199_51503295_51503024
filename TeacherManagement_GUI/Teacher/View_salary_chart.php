@@ -122,7 +122,7 @@
 </head>
 <?php
     if(!isset($_SESSION["username"])){
-        header("Location: ../login.php");
+        header("Location: http://localhost:8888/TeacherManagement/login.php");
     }
 ?>
 
@@ -149,22 +149,22 @@
                 <nav class="pull-left">
                     <ul>
                         <li>
-                            <a href="user.php">
+                            <a href="http://localhost:8888/TeacherManagement/Teacher/user.php">
                                 User Profile
                             </a>
                         </li>
                         <li>
-                            <a href="schedule.php">
+                            <a href="http://localhost:8888/TeacherManagement/Teacher/schedule.php">
                                 Teaching Schedule
                             </a>
                         </li>
                         <li>
-                            <a href="salary.php">
+                            <a href="http://localhost:8888/TeacherManagement/Teacher/salary.php">
                                 Personal Salary
                             </a>
                         </li>
                         <li>
-                            <a href="announcement.php">
+                            <a href="http://localhost:8888/TeacherManagement/Teacher/announcement.php">
                                Announcement
                             </a>
                         </li>

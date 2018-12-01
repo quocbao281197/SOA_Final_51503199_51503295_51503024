@@ -10,7 +10,7 @@
 
 <?php
     if(!isset($_SESSION["username"])){
-        header("Location: ../login.php");
+        header("Location: http://localhost:8888/TeacherManagement/login.php");
     }
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/Teacher_Management_Final/rest/Teacher/getYear/");
@@ -70,7 +70,7 @@
                                 // curl_close($ch);
                                 // //echo $array_Announcement;
                                 // $salary = (array)json_decode($array_Salary1,true);
-                                header("Location: View_salary_chart.php?year=".$_POST['Year_select']);
+                                header("Location: http://localhost:8888/TeacherManagement/Teacher/View_salary_chart.php?year=".$_POST['Year_select']);
 
                             }
                             
@@ -91,22 +91,22 @@
                 <nav class="pull-left">
                     <ul>
                         <li>
-                            <a href="user.php">
+                            <a href="http://localhost:8888/TeacherManagement/Teacher/user.php">
                                 User Profile
                             </a>
                         </li>
                         <li>
-                            <a href="schedule.php">
+                            <a href="http://localhost:8888/TeacherManagement/Teacher/schedule.php">
                                 Teaching Schedule
                             </a>
                         </li>
                         <li>
-                            <a href="salary.php">
+                            <a href="http://localhost:8888/TeacherManagement/Teacher/salary.php">
                                 Personal Salary
                             </a>
                         </li>
                         <li>
-                            <a href="announcement.php">
+                            <a href="http://localhost:8888/TeacherManagement/Teacher/announcement.php">
                                Announcement
                             </a>
                         </li>

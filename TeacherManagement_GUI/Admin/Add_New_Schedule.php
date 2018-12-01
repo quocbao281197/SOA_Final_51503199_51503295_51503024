@@ -4,7 +4,7 @@
 
 <?php
     if(!isset($_SESSION["username"])){
-        header("Location: ../login.php");
+        header("Location: http://localhost:8888/TeacherManagement/login.php");
     }
 ?>
 

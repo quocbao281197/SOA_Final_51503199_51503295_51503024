@@ -40,19 +40,19 @@
 		});
 	</script>
 </head>
-
 <?php
-	if(isset($_SESSION["username"])){
-		$name = substr($_SESSION["username"],0,2);
-		echo $name;
-		// if($name == "AD"){
-		// 	header("Location: Admin/Admin_Account.php");
-		// }
-		// else {
-		// 	header("Location: Teacher/user.php");
-		// }
+ob_start();
+session_start();
+if(isset($_SESSION["username"]) && isset($_SESSION["role"])){
+	if($_SESSION["role"] == '1'){
+		header('Location: Admin/Admin_Account.php');
 	}
+	elseif($_SESSION["role"] == '0'){
+		header('Location: Teacher/user.php');
+	}
+}
 ?>
+
 <body>
 <?php date_default_timezone_set('Asia/Ho_Chi_Minh'); ?>
 <div class="limiter">
@@ -103,18 +103,20 @@
 			//If the server returns TRUE, then print something
 			if($output == "1")
 			{
-				session_start();
+				//session_start();
 				$_SESSION["username"]          = $_POST['username']; 
 				$_SESSION["password"]          = $_POST['password']; 
-				header("Location: Admin/Admin_Account.php");
+				$_SESSION["role"]  = $output;
+				header("Location: http://localhost:8888/TeacherManagement/Admin/Admin_Account.php");
+				
 			}
 			else if($output == "0")
 			{
-				session_start();
+				//session_start();
 				$_SESSION["username"]          = $_POST['username'];
 				$_SESSION["password"]          = $_POST['password']; 
-				header("Location: Teacher/user.php");
-				//header("Location: teacher.html");
+				$_SESSION["role"]  = $output;
+				header("Location: http://localhost:8888/TeacherManagement/Teacher/user.php");
 			}
 			else if($output == "99"){
 				?>

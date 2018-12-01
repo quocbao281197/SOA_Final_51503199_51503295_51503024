@@ -6,7 +6,7 @@
 ?>
 <?php
     if(!isset($_SESSION["username"])){
-        header("Location: ../login.php");
+        header("Location: http://localhost:8888/TeacherManagement/login.php");
     }
 
     $ch = curl_init();
@@ -48,7 +48,7 @@
                                         <div class="col-md-5">
                                             <div class="form-group">
                                                 <label>ID (disabled)</label>
-                                                <input type="text" class="form-control" disabled placeholder="Teacher ID" value="<?php echo $username?>">
+                                                <input type="text" class="form-control" disabled placeholder="Teacher ID" value="<?php echo $_SESSION["username"]?>">
                                             </div>
                                         </div>
                                         <div class="col-md-7">
@@ -86,7 +86,12 @@
 										<div class="col-md-4">
                                             <div class="form-group">
                                                 <label>Gender</label>
-                                                <input type="text" class="form-control" name="GENDER_INPUT"  placeholder="Nam hoặc nữ" value="<?php echo $gender?>">
+                                                <select name="GENDER_INPUT" id="GENDER_INPUT" class="form-control" value="$subjectname">
+													    <option value="0">Please select</option>
+                                                        <option value="Nam" <?php if(strpos($gender, 'Nam') !== false){ echo 'selected ="selected"';} ?>>Nam</option>
+                                                        <option value="Nữ" <?php if(strpos($gender, 'Nữ') !== false){ echo 'selected ="selected"';} ?>>Nữ</option>
+                                                 </select>
+                                                <!-- <input type="text" class="form-control" name="GENDER_INPUT"  placeholder="Nam hoặc nữ" value="<?php echo $gender?>"> -->
                                             </div>
                                         </div>
 										
@@ -122,8 +127,21 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label>Subject Name:</label>
-                                                <input type="text" class="form-control" name = "SUBJECT_INPUT" placeholder="Subject ID" value="<?= $subjectname?>">
+                                                <label>Subject Name: </label>
+                                                
+                                                <select name="SUBJECT_INPUT" id="SUBJECT_INPUT" class="form-control" value="$subjectname">
+													    <option value="0">Please select</option>
+                                                        <option value="Toán" <?php if(strpos($subjectname, 'Toán') !== false){ echo 'selected ="selected"';} ?>>Toán</option>
+                                                        <option value="Vật lý" <?php if(strpos($subjectname, 'Vật lý') !== false){ echo 'selected ="selected"';} ?>>Vật lý</option>
+                                                        <option value="Hóa học" <?php if(strpos($subjectname, 'Hóa học') !== false){ echo 'selected ="selected"';} ?>>Hóa học</option>
+                                                        <option value="Ngữ Văn" <?php if(strpos($subjectname, 'Ngữ Văn') !== false){ echo 'selected ="selected"';} ?>>Ngữ Văn</option>
+                                                        <option value="Sinh học" <?php if(strpos($subjectname, 'Sinh học') !== false){ echo 'selected ="selected"';} ?>>Sinh học</option>
+                                                        <option value="Sử" <?php if(strpos($subjectname, 'Sử') !== false){ echo 'selected ="selected"';} ?>>Sử</option>
+                                                        <option value="Địa lý" <?php if(strpos($subjectname, 'Địa lý') !== false){ echo 'selected ="selected"';} ?>>Địa lý</option>
+                                                        <option value="Công nghệ" <?php if(strpos($subjectname, 'Công nghệ') !== false){ echo 'selected ="selected"';} ?>>Công nghệ</option>
+                                                        <option value="Giáo dục công dân" <?php if(strpos($subjectname, 'Giáo dục công dân') !== false){ echo 'selected ="selected"';} ?>>Giáo dục công dân</option>
+                                                        <option value="Tin học" <?php if(strpos($subjectname, 'Tin học') !== false){ echo 'selected ="selected"';} ?>>Tin học</option>
+                                                 </select>
                                             </div>
                                         </div>
                                     </div>
@@ -165,6 +183,7 @@
                                     ));
                                     $data = array('ID'=>$_SESSION['username'], 'TEACHERNAME' =>$_POST['NAME_INPUT']
                                                     , 'DOB' => $_POST['DOB_INPUT']
+                                                    , 'SUBJECT_NAME' => $_POST['SUBJECT_INPUT']
                                                     , 'GENDER'=> $_POST['GENDER_INPUT']
                                                     , 'PHONENUMBER' => $_POST['PHONE_NUMBER_INPUT']
                                                     , 'COUNTRY' => $_POST['COUNTRY_INPUT']
@@ -200,23 +219,23 @@
                 <nav class="pull-left">
                     <ul>
                         <li>
-                            <a href="schedule.php">
+                            <a href="http://localhost:8888/TeacherManagement/Teacher/schedule.php">
                                 Teaching Schedule
                             </a>
                         </li>
                         <li>
-                            <a href="salary.php">
+                            <a href="http://localhost:8888/TeacherManagement/Teacher/salary.php">
                                 Personal Salary
                             </a>
                         </li>
 						
 						<li>
-                            <a href="salary_chart.php">
+                            <a href="http://localhost:8888/TeacherManagement/Teacher/salary_chart.php">
                                 Salary Chart
                             </a>
                         </li>
                         <li>
-                            <a href="announcement.php">
+                            <a href="http://localhost:8888/TeacherManagement/Teacher/announcement.php">
                                Announcement
                             </a>
                         </li>

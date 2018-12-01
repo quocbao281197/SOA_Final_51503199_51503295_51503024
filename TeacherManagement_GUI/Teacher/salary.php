@@ -7,7 +7,7 @@
 
 <?php
     if(!isset($_SESSION["username"])){
-        header("Location: ../login.php");
+        header("Location: http://localhost:8888/TeacherManagement/login.php");
     }
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/Teacher_Management_Final/rest/Teacher/TeacherManagement/ViewSalary/");
@@ -56,7 +56,7 @@
                             </div>
                             <div class="footer">
                                 <form method="post" action="salary_chart.php">
-                                    <button class="btn btn-info btn-fill pull-left" type = "submit" href="salary_chart.php">View Salary Chart</button>
+                                    <button class="btn btn-info btn-fill pull-left" type = "submit" href="http://localhost:8888/TeacherManagement/Teacher/salary_chart.php">View Salary Chart</button>
                                 </form>
                             </div>
 
@@ -72,23 +72,23 @@
                 <nav class="pull-left">
                     <ul>
                         <li>
-                            <a href="user.php">
+                            <a href="http://localhost:8888/TeacherManagement/Teacher/user.php">
                                 User Profile
                             </a>
                         </li>
                         <li>
-                            <a href="schedule.php">
+                            <a href="http://localhost:8888/TeacherManagement/Teacher/schedule.php">
                                 Teaching Schedule
                             </a>
                         </li>
 						
 						<li>
-                            <a href="salary_chart.php">
+                            <a href="http://localhost:8888/TeacherManagement/Teacher/salary_chart.php">
                                 Salary Chart
                             </a>
                         </li>
                         <li>
-                            <a href="announcement.php">
+                            <a href="http://localhost:8888/TeacherManagement/Teacher/announcement.php">
                                Announcement
                             </a>
                         </li>

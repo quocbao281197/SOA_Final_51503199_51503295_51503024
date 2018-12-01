@@ -54,7 +54,7 @@
     ob_start();
     session_start();
     if(!isset($_SESSION["username"])){
-        header("Location: ../login.php");
+        header("Location: http://localhost:8888/TeacherManagement/login.php");
     }
     $username = $_SESSION["username"];
 
@@ -112,7 +112,7 @@
                 <div class="container-fluid">
                     <ul class="navbar-mobile__list list-unstyled">
                         <li class="active">
-                            <a href="Admin_Account.php">
+                            <a href="http://localhost:8888/TeacherManagement/Admin/Admin_Account.php">
                                 <i class="fas fa-user"></i>My Account</a>
                         </li>
                         <li class="has-sub">
@@ -120,19 +120,19 @@
                                 <i class="fas fa-bell"></i>Announcement</a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
                                 <li>
-                                    <a href="Upload_Announcement.php">Upload new Announcement</a>
+                                    <a href="http://localhost:8888/TeacherManagement/Admin/Upload_Announcement.php">Upload new Announcement</a>
                                 </li>
                                 <li>
-                                    <a href="View_All_Announcement.php">View all Announcement</a>
+                                    <a href="http://localhost:8888/TeacherManagement/Admin/View_All_Announcement.php">View all Announcement</a>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <a href="Schedule.php">
+                            <a href="http://localhost:8888/TeacherManagement/Admin/Schedule.php">
                                 <i class="fas fa-table"></i>Schedule</a>
                         </li>
                         <li>
-                            <a href="TeacherManagement.php">
+                            <a href="http://localhost:8888/TeacherManagement/Admin/TeacherManagement.php">
                                 <i class="fas fa-users"></i>TeacherManagement</a>
                         </li>
                     </ul>
@@ -152,7 +152,7 @@
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="active">
-                            <a href="Admin_Account.php">
+                            <a href="http://localhost:8888/TeacherManagement/Admin/Admin_Account.php">
                                 <i class="fas fa-user"></i>My Account</a>
                         </li>
                         <li class="has-sub">
@@ -160,23 +160,23 @@
                                 <i class="fas fa-bell"></i>Announcement</a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
                                 <li>
-                                    <a href="Upload_Announcement.php">Upload new Announcement</a>
+                                    <a href="http://localhost:8888/TeacherManagement/Admin/Upload_Announcement.php">Upload new Announcement</a>
                                 </li>
                                 <li>
-                                    <a href="View_All_Announcement.php">View all Announcement</a>
+                                    <a href="http://localhost:8888/TeacherManagement/Admin/View_All_Announcement.php">View all Announcement</a>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <a href="Schedule.php">
+                            <a href="http://localhost:8888/TeacherManagement/Admin/Schedule.php">
                                 <i class="fas fa-table"></i>Schedule</a>
                         </li>
                         <li>
-                            <a href="TeacherManagement.php">
+                            <a href="http://localhost:8888/TeacherManagement/Admin/TeacherManagement.php">
                                 <i class="fas fa-users"></i>TeacherManagement</a>
                         </li>
 						<li>
-							<a href="Salary.php">
+							<a href="http://localhost:8888/TeacherManagement/Admin/Salary.php">
                                 <i class="fas fa-users"></i>Salary</a>
 						</li>
                     </ul>
@@ -219,12 +219,12 @@
                                             </div>
                                             <div class="account-dropdown__body">
                                                 <div class="account-dropdown__item">
-                                                    <a href="Admin_Account.php">
+                                                    <a href="http://localhost:8888/TeacherManagement/Admin/Admin_Account.php">
                                                         <i class="zmdi zmdi-account"></i>Account</a>
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__footer">
-                                                <a href="AdminLogout.php">
+                                                <a href="http://localhost:8888/TeacherManagement/Admin/AdminLogout.php">
                                                     <i class="zmdi zmdi-power"></i>Logout</a>
                                             </div>
                                         </div>
@@ -266,18 +266,6 @@
                                                     <small class="form-text text-muted">Please enter username</small>
                                                 </div>
                                             </div>
-                                            <div class="row form-group">
-                                                <div class="col col-md-3">
-                                                    <label for="select" class=" form-control-label">Status</label>
-                                                </div>
-                                                <div class="col-12 col-md-9">
-                                                    <select name="status_select" id="status_select" class="form-control">
-                                                        <option value="0">Please select</option>
-                                                        <option value="1" <?php if($status == '1'){ echo 'selected ="selected"';} ?>>Active</option>
-                                                        <option value="0" <?php if($status == '0'){ echo 'selected ="selected"';} ?>>Deactive</option>
-                                                    </select>
-                                                </div>
-                                            </div>
 
                                             <div class="row form-group">
                                                 <div class="col col-md-3">
@@ -301,12 +289,18 @@
                                                 <div class="col col-md-3">
                                                     <label for="select" class=" form-control-label">Gender</label>
                                                 </div>
-                                                <div class="col-12 col-md-9">
+                                                <!-- <div class="col-12 col-md-9">
+                                                
                                                     <select name="gender_select" id="gender" class="form-control">
                                                         <option value="0">Please select</option>
                                                         <option value="Nam" <?php if($gender == 'Nam'){ echo 'selected ="selected"';} ?>>Nam</option>
                                                         <option value="Nữ" <?php if($gender == 'Nữ'){ echo 'selected ="selected"';} ?>>Nữ</option>
                                                     </select>
+                                                </div> -->
+
+                                                <div class="col-12 col-md-9">
+                                                    <input type="text" id="gender_select" name="gender_select" placeholder="Gender" class="form-control" value="<?php echo $gender?>">
+                                                    <small class="help-block form-text">Please enter your Identify Card Number</small>
                                                 </div>
                                             </div>
                                             <div class="row form-group">
@@ -371,11 +365,11 @@
                                                     <input type="file" id="file-input" name="file-input" class="form-control-file">
                                                 </div>
                                             </div> -->
-                                            <div class="card-footer">
+                                            <!-- <div class="card-footer">
                                                 <button type="submit" class="btn btn-primary btn-sm">
                                                     Update
                                                 </button>
-                                            </div>
+                                            </div> -->
                                             <div id="alert-addSuccess" class="alert alert-success" style="display: none ;text-allign:center" >
                                                 <strong> Update Private Information Success!</strong>
                                             </div>
@@ -385,10 +379,9 @@
                             </div>
                         </div>
                         <?php
-                            if(isset($_POST['NAME_INPUT']) && isset($_POST['status_select']) && isset($_POST['DOB_INPUT']) && isset($_POST['IDENTIFY_CARD_NUMBER_INPUT']) && isset($_POST['COUNTRY_INPUT']) && isset($_POST['gender_select']) && isset($_POST['PHONE_NUMBER_INPUT']) && isset($_POST['EMAIL_INPUT']) && isset($_POST['ADDRESS_INPUT']) && isset($_POST['RELIGION_INPUT'])){
+                            if(isset($_POST['NAME_INPUT']) && isset($_POST['DOB_INPUT']) && isset($_POST['IDENTIFY_CARD_NUMBER_INPUT']) && isset($_POST['COUNTRY_INPUT']) && isset($_POST['gender_select']) && isset($_POST['PHONE_NUMBER_INPUT']) && isset($_POST['EMAIL_INPUT']) && isset($_POST['ADDRESS_INPUT']) && isset($_POST['RELIGION_INPUT'])){
                                 
                                 $username_input              = $_POST['NAME_INPUT'];
-                                $status_input                = $_POST['status_select'];
                                 $DOB_input                   = $_POST['DOB_INPUT'];
                                 $Identify_Card_Number_input  = $_POST['IDENTIFY_CARD_NUMBER_INPUT'];
                                 $Country_input               = $_POST['COUNTRY_INPUT'];
@@ -422,7 +415,7 @@
                                     'Content-Type: application/x-www-form-urlencoded; charset=utf-8',
                                ));
                                 //curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/x-www-form-urlencoded; charset=utf-8')); // In Java: @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-                                $data = array('ID'=>$_SESSION["username"], 'TEACHERNAME' => $username_input, 'DOB' => $DOB_input, 'IDENTIFYCARDNUMBER'=>$Identify_Card_Number_input, 'GENDER' => $gender_selected, 'PHONENUMBER' => $phone_input, 'COUNTRY' =>$Country_input, 'EMAIL' =>$email_input, 'ADDRESS' =>$Address_input, 'RELIGION' => $Religion_input, 'STATUS' =>$status_input);
+                                $data = array('ID'=>$_SESSION["username"], 'TEACHERNAME' => $username_input, 'DOB' => $DOB_input, 'IDENTIFYCARDNUMBER'=>$Identify_Card_Number_input, 'GENDER' => $gender_selected, 'PHONENUMBER' => $phone_input, 'COUNTRY' =>$Country_input, 'EMAIL' =>$email_input, 'ADDRESS' =>$Address_input, 'RELIGION' => $Religion_input, 'STATUS' =>"1");
                                 //$data = array();
                                 curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
                                 $output = curl_exec($ch);

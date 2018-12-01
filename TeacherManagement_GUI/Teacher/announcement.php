@@ -8,7 +8,7 @@
 <body>
 <?php
     if(!isset($_SESSION["username"])){
-        header("Location: ../login.php");
+        header("Location: http://localhost:8888/TeacherManagement/login.php");
     }
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/Teacher_Management_Final/rest/Teacher/TeacherManagement/GetListAnnouncement/");
@@ -42,7 +42,7 @@
                                     ?> 
                                         <div class="typo-line">
                                         <p class="category" style ="max-width:300px"><?= substr($a['datepost'], 0, 10);?></p>
-                                        <a class="text-info" style ="cursor:pointer;" href="ViewAnnoucement.php?title=<?=$a['title']?>">
+                                        <a class="text-info" style ="cursor:pointer;" href="http://localhost:8888/TeacherManagement/Teacher/ViewAnnoucement.php?title=<?=$a['title']?>">
                                             <?= $a['title']?>
                                         </a>
                                 </div>
@@ -64,23 +64,23 @@
                 <nav class="pull-left">
                     <ul>
                         <li>
-                            <a href="user.php">
+                            <a href="http://localhost:8888/TeacherManagement/Teacher/user.php">
                                 User Profile
                             </a>
                         </li>
                         <li>
-                            <a href="schedule.php">
+                            <a href="http://localhost:8888/TeacherManagement/Teacher/schedule.php">
                                 Teaching Schedule
                             </a>
                         </li>
 						
 						<li>
-                            <a href="salary.php">
+                            <a href="http://localhost:8888/TeacherManagement/Teacher/salary.php">
                                 Personal Salary
                             </a>
                         </li>
                         <li>
-                            <a href="salary_chart.php">
+                            <a href="http://localhost:8888/TeacherManagement/Teacher/salary_chart.php">
                                Salary Chart
                             </a>
                         </li>

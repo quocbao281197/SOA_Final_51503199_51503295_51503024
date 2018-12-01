@@ -1,0 +1,7 @@
+NAME,DOB,IDENTY,GENDER,PHONE,COUNTRY,EMAIL,ADDRESS,RELIGION,STATUS,SUBJECT
+LVL1,02-11-18,312145678985,Nam,76801857104,Bến Tre,coho1@gmail.com,none,none,Toán
+ABC1 1,02-11-18,312145678986,Nam,76801857105,Bến Tre,levanluyen2@gmail.com,none,none,Toán
+ABC2 CHO 2,02-11-18,312145678987,Nam,76801857106,ben tre,coho3@gmail.com,none,none,Ngữ Văn
+ABC3 2,02-11-18,312145678988,Nam,76801857107,ben tre,levanluyen7@gmail.com,none,none,Ngữ Văn
+ABC4,02-11-18,312145678989,Nam,76801857108,ben tre,coho4@gmail.com,none,none,Hóa học
+ABC5,02-11-18,312145678910,Nam,76801857109,ben tre,levanluyen89@gmail.com,none,none,Hóa học

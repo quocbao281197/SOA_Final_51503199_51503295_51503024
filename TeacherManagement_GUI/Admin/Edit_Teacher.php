@@ -4,7 +4,7 @@
 
 <?php
     if(!isset($_SESSION["username"])){
-        header("Location: ../login.php");
+        header("Location: http://localhost:8888/TeacherManagement/login.php");
     }
     if(isset($_GET["id"])){
         $id       = $_GET["id"];
@@ -92,12 +92,17 @@
                                                 </div>
                                                 <div class="col-12 col-md-9">
                                                     <select name="subject_select" id="subject_select" class="form-control" value="<?php echo $set_value?>">
-                                                        <option value="0">Please select</option>
+													    <option value="0">Please select</option>
                                                         <option value="Toán" <?php if($subjectname == 'Toán'){ echo 'selected ="selected"';} ?>>Toán</option>
-                                                        <option value="Xác suất thống kê" <?php if($subjectname == 'Xác suất thống kê'){ echo 'selected="selected"';} ?>>Xác suất thống kê</option>
-                                                        <option value="Ngữ Văn" <?php if($subjectname == 'Ngữ Văn'){ echo 'selected="selected"';} ?>>Ngữ Văn</option>
-                                                        <option value="Vật lý" <?php if($subjectname == 'Vật lý'){ echo 'selected="selected"';} ?>>Vật lý</option>
-                                                        <option value="Hóa học" <?php if($subjectname == 'Hóa học'){ echo 'selected="selected"';} ?>>Hóa học</option>
+                                                        <option value="Vật lý" <?php if($subjectname == 'Vật lý'){ echo 'selected ="selected"';} ?>>Vật lý</option>
+                                                        <option value="Hóa học" <?php if($subjectname == 'Hóa học'){ echo 'selected ="selected"';} ?>>Hóa học</option>
+                                                        <option value="Ngữ Văn" <?php if($subjectname == 'Ngữ Văn'){ echo 'selected ="selected"';} ?>>Ngữ Văn</option>
+                                                        <option value="Sinh học" <?php if($subjectname == 'Sinh học'){ echo 'selected ="selected"';} ?>>Sinh học</option>
+                                                        <option value="Sử" <?php if($subjectname == 'Sử'){ echo 'selected ="selected"';} ?>>Sử</option>
+                                                        <option value="Địa lý" <?php if($subjectname == 'Địa lý'){ echo 'selected ="selected"';} ?>>Địa lý</option>
+                                                        <option value="Công nghệ" <?php if($subjectname == 'Công nghệ'){ echo 'selected ="selected"';} ?>>Công nghệ</option>
+                                                        <option value="Giáo dục công dân" <?php if($subjectname == 'Giáo dục công dân'){ echo 'selected ="selected"';} ?>>Giáo dục công dân</option>
+                                                        <option value="Tin học" <?php if($subjectname == 'Tin học'){ echo 'selected ="selected"';} ?>>Tin học</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -138,7 +143,7 @@
                                                     <label for="Phone-input" class=" form-control-label">Phone Number</label>
                                                 </div>
                                                 <div class="col-12 col-md-9">
-                                                    <input type="text" id="PHONE_NUMBER_INPUT" name="PHONE_NUMBER_INPUT" placeholder="Phone Number" class="form-control" value="<?php echo $phonenumber?>">
+                                                    <input type="number" id="PHONE_NUMBER_INPUT" name="PHONE_NUMBER_INPUT" placeholder="Phone Number" class="form-control" value="<?php echo $phonenumber?>">
                                                     <small class="help-block form-text">Please enter your Phone Number</small>
                                                 </div>
                                             </div>

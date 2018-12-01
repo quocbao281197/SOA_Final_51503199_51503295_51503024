@@ -77,7 +77,7 @@
                 <div class="container-fluid">
                     <ul class="navbar-mobile__list list-unstyled">
                         <li class="active">
-                            <a href="Admin_Account.php">
+                            <a href="http://localhost:8888/TeacherManagement/Admin/Admin_Account.php">
                                 <i class="fas fa-user"></i>My Account</a>
                         </li>
                         <li class="has-sub">
@@ -85,19 +85,19 @@
                                 <i class="fas fa-bell"></i>Announcement</a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
                                 <li>
-                                    <a href="Upload_Announcement.php">Upload new Announcement</a>
+                                    <a href="http://localhost:8888/TeacherManagement/Admin/Upload_Announcement.php">Upload new Announcement</a>
                                 </li>
                                 <li>
-                                    <a href="View_All_Announcement.php">View all Announcement</a>
+                                    <a href="http://localhost:8888/TeacherManagement/Admin/View_All_Announcement.php">View all Announcement</a>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <a href="Schedule.php">
+                            <a href="http://localhost:8888/TeacherManagement/Admin/Schedule.php">
                                 <i class="fas fa-table"></i>Schedule</a>
                         </li>
                         <li>
-                            <a href="TeacherManagement.php">
+                            <a href="http://localhost:8888/TeacherManagement/Admin/TeacherManagement.php">
                                 <i class="fas fa-users"></i>TeacherManagement</a>
                         </li>
                     </ul>
@@ -117,7 +117,7 @@
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="active">
-                            <a href="Admin_Account.php">
+                            <a href="http://localhost:8888/TeacherManagement/Admin/Admin_Account.php">
                                 <i class="fas fa-user"></i>My Account</a>
                         </li>
                         <li class="has-sub">
@@ -125,23 +125,23 @@
                                 <i class="fas fa-bell"></i>Announcement</a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
                                 <li>
-                                    <a href="Upload_Announcement.php">Upload new Announcement</a>
+                                    <a href="http://localhost:8888/TeacherManagement/Admin/Upload_Announcement.php">Upload new Announcement</a>
                                 </li>
                                 <li>
-                                    <a href="View_All_Announcement.php">View all Announcement</a>
+                                    <a href="http://localhost:8888/TeacherManagement/Admin/View_All_Announcement.php">View all Announcement</a>
                                 </li>
                             </ul>
                         </li>
                         <li>
-                            <a href="Schedule.php">
+                            <a href="http://localhost:8888/TeacherManagement/Admin/Schedule.php">
                                 <i class="fas fa-table"></i>Schedule</a>
                         </li>
                         <li>
-                            <a href="TeacherManagement.php">
+                            <a href="http://localhost:8888/TeacherManagement/Admin/TeacherManagement.php">
                                 <i class="fas fa-users"></i>TeacherManagement</a>
                         </li>
 						<li>
-							<a href="Salary.php">
+							<a href="http://localhost:8888/TeacherManagement/Admin/Salary.php">
                                 <i class="fas fa-users"></i>Salary</a>
 						</li>
                     </ul>
@@ -184,12 +184,12 @@
                                             </div>
                                             <div class="account-dropdown__body">
                                                 <div class="account-dropdown__item">
-                                                    <a href="Admin_Account.php">
+                                                    <a href="http://localhost:8888/TeacherManagement/Admin/Admin_Account.php">
                                                         <i class="zmdi zmdi-account"></i>Account</a>
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__footer">
-                                                <a href="AdminLogout.php">
+                                                <a href="http://localhost:8888/TeacherManagement/Admin/AdminLogout.php">
                                                     <i class="zmdi zmdi-power"></i>Logout</a>
                                             </div>
                                         </div>

@@ -4,7 +4,7 @@
 
 <?php
     if(!isset($_SESSION["username"])){
-        header("Location: ../login.php");
+        header("Location: http://localhost:8888/TeacherManagement/login.php");
     }
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/Teacher_Management_Final/rest/Teacher/TeacherManagement/GetListAnnouncement/");
@@ -36,7 +36,7 @@
                                                 ?>
                                                 <tr> 
                                                     <td><?= substr($a['datepost'], 0, 10);?></td>
-                                                    <td><a class="text-info" style ="cursor:pointer;" href="ViewAnnouncement.php?title=<?=$a['title']?>"><?= $a['title']?></a></td>
+                                                    <td><a class="text-info" style ="cursor:pointer;" href="http://localhost:8888/TeacherManagement/Admin/ViewAnnouncement.php?title=<?=$a['title']?>"><?= $a['title']?></a></td>
                                                 <tr>
                                                 <?php
                                                 }

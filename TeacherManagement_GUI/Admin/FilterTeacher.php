@@ -4,7 +4,7 @@
 
 <?php
     if(!isset($_SESSION["username"])){
-        header("Location: ../login.php");
+        header("Location: http://localhost:8888/TeacherManagement/login.php");
     }
     if(isset($_GET["Status"])){
         $Status       = $_GET["Status"];
@@ -34,7 +34,7 @@
                                     </div>
                                     <div class="table-data__tool-right">
                                         <button class="au-btn au-btn-icon au-btn--green au-btn--small">
-                                            <i class="zmdi zmdi-plus"></i><a href="Add_New_Teacher.php">Add</a></button>
+                                            <i class="zmdi zmdi-plus"></i><a href="http://localhost:8888/TeacherManagement/Admin/Add_New_Teacher.php">Add</a></button>
                                     </div>
                                 </div>
 
@@ -96,10 +96,10 @@
                                                         <td>
                                                             <div class="table-data-feature" style="float:left">
                                                                 <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                                    <a href="Edit_Teacher.php?id=<?=$t['id']?>" class="zmdi zmdi-edit"></a>
+                                                                    <a href="http://localhost:8888/TeacherManagement/Admin/Edit_Teacher.php?id=<?=$t['id']?>" class="zmdi zmdi-edit"></a>
                                                                 </button>
                                                                 <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
-                                                                    <a href="Delete_Teacher.php/?id=<?=$t['id']?>" class="zmdi zmdi-delete"></a>
+                                                                    <a href="http://localhost:8888/TeacherManagement/Admin/Delete_Teacher.php/?id=<?=$t['id']?>" class="zmdi zmdi-delete"></a>
                                                                 </button>
                                                             </div>
                                                         </td>

@@ -49,10 +49,10 @@
 <?php
     ob_start();
     session_start();
-    if (!isset($_SESSION['username'])){
-        header("Location: login.php");
-    }
-    $username = $_SESSION["username"];
+   // if (!isset($_SESSION['username'])){
+    //    header("Location: http://localhost:8888/TeacherManagement/login.php");
+   // }
+  //  $username = $_SESSION["username"];
 ?>
 <div class="wrapper">
      <div class="sidebar" data-color="purple" data-image="assets/img/sidebar-5.jpg">
@@ -68,31 +68,31 @@
 
             <ul class="nav">
                 <li>
-                    <a href="user.php">
+                    <a href="http://localhost:8888/TeacherManagement/Teacher/user.php">
                         <i class="pe-7s-user"></i>
                         <p>User Profile</p>
                     </a>
                 </li>
                 <li>
-                    <a href="schedule.php">
+                    <a href="http://localhost:8888/TeacherManagement/Teacher/schedule.php">
                         <i class="pe-7s-note2"></i>
                         <p>Teaching Schedule</p>
                     </a>
                 </li>
                 <li>
-                    <a href="salary.php">
+                    <a href="http://localhost:8888/TeacherManagement/Teacher/salary.php">
                         <i class="pe-7s-news-paper"></i>
                         <p>Personal Salary</p>
                     </a>
                 </li>
 				<li>
-                    <a href="salary_chart.php">
+                    <a href="http://localhost:8888/TeacherManagement/Teacher/salary_chart.php">
                         <i class="pe-7s-graph"></i>
                         <p>Salary Chart</p>
                     </a>
                 </li>
                 <li>
-                    <a href="announcement.php">
+                    <a href="http://localhost:8888/TeacherManagement/Teacher/announcement.php">
                         <i class="pe-7s-bell"></i>
                         <p>Announcement</p>
                     </a>
@@ -121,7 +121,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="TeacherLogout.php">
+                            <a href="http://localhost:8888/TeacherManagement/Teacher/TeacherLogout.php">
                                 <p>Log out</p>
                             </a>
                         </li>

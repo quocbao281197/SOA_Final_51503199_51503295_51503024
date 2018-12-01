@@ -2,7 +2,7 @@
     ob_start();
     session_start();
     if(!isset($_SESSION["username"])){
-        header("Location: ../login.php");
+        header("Location: http://localhost:8888/TeacherManagement/login.php");
     }
     /*' Logggout */ 
     $ch = curl_init();
@@ -24,6 +24,6 @@
     $_SESSION = array();
     //clear session from disk
     session_destroy();
-    //header("Location: http://localhost:8888/TeacherManagement/login.php");
-    header("Location: ../login.php");
+    //header("Location: http://localhost:8080/TeacherManagement/login.php");
+    header("Location: http://localhost:8888/TeacherManagement/login.php");
 ?>

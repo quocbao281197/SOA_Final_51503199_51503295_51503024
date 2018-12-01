@@ -6,7 +6,7 @@
 ?>
 <?php
     if(!isset($_SESSION["username"])){
-        header("Location: ../login.php");
+        header("Location: http://localhost:8888/TeacherManagement/login.php");
     }
 ?>
         <div class="content">
@@ -69,7 +69,7 @@
                                 $Year = $_POST['Year_select'];
 
                                 //$locationLink = "Location: TeacherSchedule/ViewSchedule.php?teacherid=". $GVID ."&semester=".$Semester."&year=". $Year ." target=\"_blank\""
-                                header("Location: TeacherSchedule/ViewSchedule.php?teacherid=". $GVID ."&semester=".$Semester."&year=". $Year);
+                                header("Location: http://localhost:8888/TeacherManagement/Teacher/TeacherSchedule/ViewSchedule.php?teacherid=". $GVID ."&semester=".$Semester."&year=". $Year);
                             }
                         ?>
                     </div>

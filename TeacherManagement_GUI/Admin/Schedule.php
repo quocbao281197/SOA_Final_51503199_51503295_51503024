@@ -4,7 +4,7 @@
 
 <?php
     if(!isset($_SESSION["username"])){
-        header("Location: ../login.php");
+        header("Location: http://localhost:8888/TeacherManagement/login.php");
     }
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "http://localhost:8080/Teacher_Management_Final/rest/Teacher/getListTeacherID/");
@@ -101,7 +101,7 @@
                                                     View
                                                 </button>
                                                 <button style="background-color: #4CAF50" class="btn btn-primary btn-sm">
-                                                    <i class="zmdi zmdi-plus"></i><a href="Add_New_Schedule.php" style="color:white">Add</a>
+                                                    <i class="zmdi zmdi-plus"></i><a href="http://localhost:8888/TeacherManagement/Admin/Add_New_Schedule.php" style="color:white">Add</a>
                                                 </button>
                                             </div>
                                         </form>
@@ -117,7 +117,7 @@
                                 $GVID = $_POST['GV_select'];
                                 $Semester = $_POST['Semester_select'];
                                 $Year = $_POST['Year_select'];
-                                header("Location: TeacherSchedule/ViewSchedule.php?teacherid=". $GVID ."&semester=".$Semester."&year=". $Year);
+                                header("Location: http://localhost:8888/TeacherManagement/Admin/TeacherSchedule/ViewSchedule.php?teacherid=". $GVID ."&semester=".$Semester."&year=". $Year);
                             }
                         ?>
                     </div>
